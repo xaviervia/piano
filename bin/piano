@@ -1,0 +1,9 @@
+#!/usr/bin/env ruby
+
+require "piano"
+
+if port = ARGV.shift
+  Piano.port = port
+end
+
+Piano.run!

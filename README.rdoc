@@ -1,0 +1,45 @@
+= Piano
+
+Out-of-the-box sinatra server for fast website sketching using haml and sass.
+
+== Installation
+CHECK
+
+  sudo gem install <git-repo>
+
+== Usage
+
+  server/folder$ piano [<port-number>]
+
+Piano will start a Sinatra server based in the same folder where you run the command, in the port given. If no port is given, piano will start in the default Sinatra port, 4567. 
+
+Haml(http://haml-lang.com/) <tt>.haml</tt> files and Sass (http://sass-lang.com/) <tt>.sass</tt> files in the base folder will automatically be mapped to urls.
+
+  yoursite.com/<strong>users</strong> => server/folder/<strong>users.haml</strong>
+  yoursite.com/<strong>style.css</strong>        <= server/folder/<strong>style.sass</strong>
+
+Other files (images, plain text files, etc) will be loaded from the <tt>server/folder/public</tt> as is default behavior in Sinatra.
+
+== Gem dependencies
+
+* Sinatra (http://sinatrarb.com/)
+* Haml (http://haml-lang.com/)
+* Sass (http://sass-lang.com/)
+
+== Desired (future) features
+
+* Online source files edition.
+
+= License
+
+(The MIT License)
+
+Copyright © 2011:
+
+* Xavier Via (http://germino.com.ar)
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the ‘Software’), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED ‘AS IS’, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
