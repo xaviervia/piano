@@ -9,13 +9,13 @@ Gem::Specification.new do |s|
   s.authors     = ["Xavier Via"]
   s.email       = ["xavierviacanel@gmail.com"]
   s.homepage    = ""
-  s.summary     = %q{Write a gem summary}
-  s.description = %q{Write a gem description}
+  s.summary     = %q{Out-of-the-box sinatra server for web site sketching using haml + sass}
+  s.description = %q{Out-of-the-box sinatra server for web site sketching using haml + sass}
 
   s.rubyforge_project = "piano"
-  s.add_dependency "sinatra"
-  s.add_dependency "haml"
-  s.add_dependency "sass"
+  s.add_dependency "sinatra", ">= 1.2.6"
+  s.add_dependency "haml", ">= 3.1.1"
+  s.add_dependency "sass", ">= 3.1.1"
 
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
