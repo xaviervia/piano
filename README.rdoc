@@ -15,8 +15,8 @@ Piano will start a Sinatra server based in the same folder where you run the com
 
 Haml(http://haml-lang.com/) <tt>.haml</tt> files and Sass (http://sass-lang.com/) <tt>.sass</tt> files in the base folder will automatically be mapped to urls.
 
-  yoursite.com/<strong>users</strong> => server/folder/<strong>users.haml</strong>
-  yoursite.com/<strong>style.css</strong>        <= server/folder/<strong>style.sass</strong>
+  yoursite.com/users      => server/folder/users.haml
+  yoursite.com/style.css  => server/folder/style.sass
 
 Other files (images, plain text files, etc) will be loaded from the <tt>server/folder/public</tt> as is default behavior in Sinatra.
 
