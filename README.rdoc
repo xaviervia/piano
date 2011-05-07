@@ -3,9 +3,8 @@
 Out-of-the-box sinatra server for fast website sketching using haml and sass.
 
 == Installation
-CHECK
 
-  sudo gem install <git-repo>
+  gem install piano
 
 == Usage
 
