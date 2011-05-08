@@ -1,6 +1,8 @@
 = Piano
 
-Out-of-the-box sinatra server for fast website sketching using haml and sass.
+Out-of-the-box sinatra server for fast website sketching using haml and sass and coffee-script.
+
+The magic triplet, one command away!
 
 == Installation
 
@@ -12,22 +14,43 @@ Out-of-the-box sinatra server for fast website sketching using haml and sass.
 
 Piano will start a Sinatra server based in the same folder where you run the command, in the port given. If no port is given, piano will start in the default Sinatra port, 4567. 
 
-Haml(http://haml-lang.com/) <tt>.haml</tt> files and Sass (http://sass-lang.com/) <tt>.sass</tt> files in the base folder will automatically be mapped to urls.
+Haml(http://haml-lang.com) <tt>.haml</tt> files and Sass (http://sass-lang.com) <tt>.sass</tt> and CoffeeScript (http://github.com/josh/ruby-coffee-script) <tt>.coffee</tt> files in the base folder will automatically be mapped to urls.
 
   yoursite.com/users      => server/folder/users.haml
   yoursite.com/style.css  => server/folder/style.sass
+  yoursite.com/app.js     => server/folder/app.coffee
 
 Other files (images, plain text files, etc) will be loaded from the <tt>server/folder/public</tt> as is default behavior in Sinatra.
 
+== Candies for the kidz
+
+Piano features two convenience helpers to include stylesheets and javascripts: <tt>style("style.css")</tt> and <tt>script("app.js")</tt>.
+
+You can use them in your haml templates like this:
+
+  !!! 5
+  %html
+    %head
+      %title Out-of-the-box is pretty awesome!
+      = style "style.css"
+      = script "app.js"
+      
+Code is poetry.
+
 == Gem dependencies
 
-* Sinatra (http://sinatrarb.com/)
-* Haml (http://haml-lang.com/)
-* Sass (http://sass-lang.com/)
+* sinatra (http://sinatrarb.com)
+* haml (http://haml-lang.com)
+* sass (http://sass-lang.com)
+* coffee-script (http://github.com/josh/ruby-coffee-script)
 
 == Desired (future) features
 
 * Online source files edition.
+
+== Tips
+
+Not really suitable for production use, since any empty URL will return a full path disclosure of the file the Piano intended to load.
 
 = License
 

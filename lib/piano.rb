@@ -1,6 +1,7 @@
 require "sinatra/base"
 require "haml"
 require "sass"
+require "coffee-script"
 
 class Piano < Sinatra::Base
   set :root, File.expand_path(Dir.pwd)
@@ -10,12 +11,17 @@ class Piano < Sinatra::Base
     try_haml :index
   end
   
-  get "/:something.css" do |something|
+  get %r{/(.+?).css} do |something|
     content_type :css
     sass something.to_sym
   end
   
-  get "/:something" do |something|
+  get %r{/(.+?).js} do |something|
+    content_type :js
+    coffee something.to_sym
+  end
+  
+  get %r{/(.+)$} do |something|
     try_haml something.to_sym
   end
   
@@ -37,10 +43,7 @@ class Piano < Sinatra::Base
     def sass(template)
       begin
         dir = File.expand_path(Dir.pwd)
-        data = ""
-        File.open "#{dir}/#{template.to_s}.sass" do |file|
-          data = file.read
-        end
+        data = File.read "#{dir}/#{template.to_s}.sass"
         return Sass.compile(data, :syntax => :sass)
       rescue Exception => error
         if error.message =~ /No such file or directory/
@@ -51,6 +54,30 @@ class Piano < Sinatra::Base
           raise error
         end
       end
+    end
+  
+    def coffee(template)
+      begin
+        dir = File.expand_path(Dir.pwd)
+        data = File.read "#{dir}/#{template.to_s}.coffee"
+        return CoffeeScript.compile(data)
+      rescue Exception => error
+        if error.message =~ /No such file or directory/
+          path = File.expand_path(Dir.pwd)
+          response = "<h1>You have still to put something here.</h1><p>This is <em>#{path}/#{template.to_s}.coffee</em></p><blockquote>Good luck!</blockquote>"
+          return response
+        else
+          raise error
+        end
+      end
+    end
+    
+    def style(path)
+      "<link rel='stylesheet' type='text/css' href='#{path}' />"
+    end
+    
+    def script(path)
+      "<script type='text/javascript' src='#{path}'></script>"
     end
   end
   

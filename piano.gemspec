@@ -8,14 +8,15 @@ Gem::Specification.new do |s|
   s.platform    = Gem::Platform::RUBY
   s.authors     = ["Xavier Via"]
   s.email       = ["xavierviacanel@gmail.com"]
-  s.homepage    = ""
-  s.summary     = %q{Out-of-the-box sinatra server for web site sketching using haml + sass}
-  s.description = %q{Out-of-the-box sinatra server for web site sketching using haml + sass}
+  s.homepage    = "http://github.com/xaviervia/piano"
+  s.summary     = %q{Out-of-the-box sinatra server for web site sketching using haml + sass + coffee-script}
+  s.description = %q{Out-of-the-box sinatra server for web site sketching using haml + sass + coffee-script}
 
   s.rubyforge_project = "piano"
   s.add_dependency "sinatra", ">= 1.2.6"
   s.add_dependency "haml", ">= 3.1.1"
   s.add_dependency "sass", ">= 3.1.1"
+  s.add_dependency "coffee-script", ">= 2.2.0"
 
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
