@@ -14,7 +14,7 @@ The magic triplet, one command away!
 
 Piano will start a Sinatra server based in the same folder where you run the command, in the port given. If no port is given, piano will start in the default Sinatra port, 4567. 
 
-Haml(http://haml-lang.com) <tt>.haml</tt> files and Sass (http://sass-lang.com) <tt>.sass</tt> and CoffeeScript (http://github.com/josh/ruby-coffee-script) <tt>.coffee</tt> files in the base folder will automatically be mapped to urls.
+Haml (http://haml-lang.com) <tt>.haml</tt> files and Sass (http://sass-lang.com) <tt>.sass</tt> and CoffeeScript (http://github.com/josh/ruby-coffee-script) <tt>.coffee</tt> files in the base folder will automatically be mapped to urls.
 
   yoursite.com/users      => server/folder/users.haml
   yoursite.com/style.css  => server/folder/style.sass
