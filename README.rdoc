@@ -24,13 +24,13 @@ Other files (images, plain text files, etc) will be loaded from the <tt>server/f
 
 == YAML Data
 
-When receiving a request for <tt>"/users"</tt>, Piano will look up for a YAML file <tt>server/folder/<strong>data/</strong>users.haml</tt>. If it is there, the YAML file will be loaded and available for the correspondent Haml template in the <tt>@data</tt> variable.
+When receiving a request for <tt>"/users"</tt>, Piano will look up for a YAML file <tt>server/folder/data/users.haml</tt>. If it is there, the YAML file will be loaded and available for the correspondent Haml template in the <tt>@data</tt> variable.
 
 == 5 minutes site!
 
 ...all working with stylesheet, scripts and YAML data sources.
 
-<strong>folder/index.haml:</strong>
+==== folder/index.haml
 
   !!! 5
   %head
@@ -44,7 +44,7 @@ When receiving a request for <tt>"/users"</tt>, Piano will look up for a YAML fi
       - @data['list'].each do |item|
         %li= item
 
-<strong>folder/style.sass:</strong>
+==== folder/style.sass
 
   body
     width: 960px
@@ -53,11 +53,11 @@ When receiving a request for <tt>"/users"</tt>, Piano will look up for a YAML fi
       family: sans-serif
       size: 15px
 
-<strong>folder/app.coffee:</strong>
+==== folder/app.coffee
 
   alert "This is too simple to be true"
   
-<strong>folder/data/index.yaml:</strong>
+==== folder/data/index.yaml
 
   title: 5 minutes site!
   description: Is amazing how simple it gets
