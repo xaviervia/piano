@@ -2,74 +2,62 @@ require "sinatra/base"
 require "haml"
 require "sass"
 require "coffee-script"
+require "yaml"
 
 class Piano < Sinatra::Base
   set :root, File.expand_path(Dir.pwd)
   set :views, File.expand_path(Dir.pwd)
   
   get "/" do
-    try_haml :index
+    @data = data_for "index"
+    try_haml "index"
   end
   
   get %r{/(.+?).css} do |something|
     content_type :css
-    sass something.to_sym
+    sass something
   end
   
   get %r{/(.+?).js} do |something|
     content_type :js
-    coffee something.to_sym
+    coffee something
   end
   
   get %r{/(.+)$} do |something|
-    try_haml something.to_sym
+    @data = data_for something
+    try_haml something
   end
   
   helpers do
     def try_haml(template)
-      begin
-        return haml template
-      rescue Exception => error
-        if error.message =~ /No such file or directory/
-          path = File.expand_path(Dir.pwd)
-          response = "<h1>You have still to put something here.</h1><p>This is <em>#{path}/#{template.to_sym}.haml</em></p><blockquote>Good luck!</blockquote>"
-          return response
-        else
-          raise error
-        end
-      end
+      file_name = "#{pwd}/#{template}.haml"
+      bad_luck file_name unless File.exists? file_name
+     
+      hash = hash_for template, :haml
+      hash += hash_for "data/#{template}", :yaml if File.exists? "#{pwd}/data/#{template}.yaml"
+      etag hash
+      haml template.to_sym
     end
     
     def sass(template)
-      begin
-        dir = File.expand_path(Dir.pwd)
-        data = File.read "#{dir}/#{template.to_s}.sass"
-        return Sass.compile(data, :syntax => :sass)
-      rescue Exception => error
-        if error.message =~ /No such file or directory/
-          path = File.expand_path(Dir.pwd)
-          response = "<h1>You have still to put something here.</h1><p>This is <em>#{path}/#{template.to_s}.sass</em></p><blockquote>Good luck!</blockquote>"
-          return response
-        else
-          raise error
-        end
-      end
+      file_name = "#{pwd}/#{template}.sass"
+      bad_luck file_name unless File.exists? file_name
+
+      etag hash_for(template, :sass)
+      Sass.compile File.read(file_name), :syntax => :sass
     end
   
     def coffee(template)
-      begin
-        dir = File.expand_path(Dir.pwd)
-        data = File.read "#{dir}/#{template.to_s}.coffee"
-        return CoffeeScript.compile(data)
-      rescue Exception => error
-        if error.message =~ /No such file or directory/
-          path = File.expand_path(Dir.pwd)
-          response = "<h1>You have still to put something here.</h1><p>This is <em>#{path}/#{template.to_s}.coffee</em></p><blockquote>Good luck!</blockquote>"
-          return response
-        else
-          raise error
-        end
-      end
+      file_name = "#{pwd}/#{template}.coffee"
+      bad_luck file_name unless File.exists? file_name
+      
+      etag hash_for(template, :coffee)
+      CoffeeScript.compile(File.read(file_name))
+    end
+    
+    def data_for(template)
+      file_name = "#{pwd}/data/#{template}.yaml"
+      YAML.load_file(file_name) if File.exists?(file_name)
     end
     
     def style(path)
@@ -79,6 +67,21 @@ class Piano < Sinatra::Base
     def script(path)
       "<script type='text/javascript' src='#{path}'></script>"
     end
+    
+    def pwd
+      File.expand_path(Dir.pwd)
+    end
+    
+    def bad_luck(path)
+      halt 404, "<h1>You have still to put something here.</h1><p>This is <em>#{path}</em></p><blockquote>Good luck!</blockquote>"
+    end
+    
+    def hash_for(name, type)
+      "#{name}.#{type} - " + File.mtime("#{pwd}/#{name}.#{type}").to_s
+    end
   end
   
+  def self.play!
+    self.run!
+  end
 end

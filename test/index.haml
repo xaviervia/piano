@@ -1,0 +1,12 @@
+!!!
+%html
+  %head
+    %title= @data['title']
+    = style "indenta/style.css"
+    = script "indentado/script.js"
+  %body
+    %h1 Testeando las nuevas-viejas características ahora
+    %p= @data['description']
+    %ul
+      - @data['articles'].each do |article|
+        %li= article

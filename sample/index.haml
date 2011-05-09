@@ -1,0 +1,11 @@
+!!! 5
+%head
+  %title= @data['title']
+  = style "style.css"
+  = script "app.js"
+%body
+  %h1= @data['title']
+  %p= @data['description']
+  %ul
+    - @data['list'].each do |item|
+      %li= item

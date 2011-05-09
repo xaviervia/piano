@@ -1,6 +1,6 @@
 = Piano
 
-Out-of-the-box sinatra server for fast website sketching using haml and sass and coffee-script.
+Out-of-the-box Sinatra server for fast website sketching using Haml and Sass and CoffeeScript (and YAML!).
 
 The magic triplet, one command away!
 
@@ -8,7 +8,7 @@ The magic triplet, one command away!
 
   gem install piano
 
-== Usage
+== Standalone Usage
 
   server/folder$ piano [<port-number>]
 
@@ -22,7 +22,80 @@ Haml(http://haml-lang.com) <tt>.haml</tt> files and Sass (http://sass-lang.com) 
 
 Other files (images, plain text files, etc) will be loaded from the <tt>server/folder/public</tt> as is default behavior in Sinatra.
 
+== YAML Data
+
+When receiving a request for <tt>"/users"</tt>, Piano will look up for a YAML file <tt>server/folder/<strong>data/</strong>users.haml</tt>. If it is there, the YAML file will be loaded and available for the correspondent Haml template in the <tt>@data</tt> variable.
+
+== 5 minutes site!
+
+...all working with stylesheet, scripts and YAML data sources.
+
+<strong>folder/index.haml:</strong>
+
+  !!! 5
+  %head
+    %title= @data['title']
+    = style "style.css"
+    = script "app.js"
+  %body
+    %h1= @data['title']
+    %p= @data['description']
+    %ul
+      - @data['list'].each do |item|
+        %li= item
+
+<strong>folder/style.sass:</strong>
+
+  body
+    width: 960px
+    margin: 0 auto
+    font:
+      family: sans-serif
+      size: 15px
+
+<strong>folder/app.coffee:</strong>
+
+  alert "This is too simple to be true"
+  
+<strong>folder/data/index.yaml:</strong>
+
+  title: 5 minutes site!
+  description: Is amazing how simple it gets
+  list:
+    - and I can have
+    - a list
+    - also.
+  
+Note: You can find this sample in the repository within the sample folder.
+
+== Library Usage
+
+If you want, you can include Piano as a library in your own server. Kind of defeats the point of using Piano, but useful if you want to extend its functionality.
+
+  require "piano"
+  
+  Piano.play! # .play! added 4 the lulz; Piano.run! will do the trick aswell
+
+Piano inherits Sinatra::Base, so all of Sinatra::Base own methods are available.
+
+Of course, you can also do this:
+
+  require "piano"
+  
+  class ExtendingPiano < Piano    
+    get "/" do
+      "This will not work since this route has already been matched."
+    end
+    # ...but you can add "before do" and "after do" filters
+    
+    run! # or play!
+  end
+  
+Remember that the server folder will be the working directory when the script is executed, and not the script path as usual in Sinatra.
+
 == Candies for the kidz
+
+=== Convenience helpers
 
 Piano features two convenience helpers to include stylesheets and javascripts: <tt>style("style.css")</tt> and <tt>script("app.js")</tt>.
 
@@ -37,6 +110,12 @@ You can use them in your haml templates like this:
       
 Code is poetry.
 
+=== Etags
+
+Since parsing YAML, Sass, Haml and CoffeeScript can be quite a burden for the processor, each response is marked with an Etag hash featuring the required file name and the timestamp of the last modification.
+
+Etags cause client side caching. This should not be a problem since the hash changes every time a source file is modified (including the YAML data files), forcing the User-Agent to update its cache, but still is worth noting as I might not be fully aware of cache-related issues that Etag-ging may trigger.
+
 == Gem dependencies
 
 * sinatra (http://sinatrarb.com)
@@ -46,6 +125,8 @@ Code is poetry.
 
 == Desired (future) features
 
+* Etag on/off (currently etags are hardcoded on)
+* <tt>"data"</tt> folder name configurable.
 * Online source files edition.
 
 == Tips
