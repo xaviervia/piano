@@ -66,7 +66,7 @@ When receiving a request for <tt>"/users"</tt>, Piano will look up for a YAML fi
     - a list
     - also.
   
-Note: You can find this sample in the repository within the sample folder.
+Note: You can find this sample in the repository within the <tt>/sample</tt> folder.
 
 == Library Usage
 
@@ -76,7 +76,7 @@ If you want, you can include Piano as a library in your own server. Kind of defe
   
   Piano.play! # .play! added 4 the lulz; Piano.run! will do the trick aswell
 
-Piano inherits Sinatra::Base, so all of Sinatra::Base own methods are available.
+<tt>Piano</tt> inherits <tt>Sinatra::Base</tt>, so all of <tt>Sinatra::Base</tt> own methods are available.
 
 Of course, you can also do this:
 
@@ -126,12 +126,18 @@ Etags cause client side caching. This should not be a problem since the hash cha
 == Desired (future) features
 
 * Etag on/off (currently etags are hardcoded on)
-* <tt>"data"</tt> folder name configurable.
+* Folder paths and sinatra default arguments configurable.
+* Deploy of sample with command line <tt>--sample</tt> argument.
+* Setup to production enviroment option (why not?!)
 * Online source files edition.
 
 == Tips
 
-Not really suitable for production use, since any empty URL will return a full path disclosure of the file the Piano intended to load.
+As for v0.7, not really suitable for production use, since any empty URL will return a full path disclosure of the file that Piano intended to load.
+
+Piano is in intensive development, you might want to keep track of small updates with Bundler pointing to the github repository. Here is the line to put in your Gemfile
+
+  gem "piano", :git => "git://github.com/xaviervia/piano.git"
 
 = License
 
