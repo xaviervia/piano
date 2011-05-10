@@ -127,6 +127,9 @@ Etags cause client side caching. This should not be a problem since the hash cha
 
 * Etag on/off (currently etags are hardcoded on)
 * Folder paths and sinatra default arguments configurable.
+* Condition for disabling default Piano routes
+* Further documentation of Piano helpers
+* More helpers for semantic data handling.
 * Deploy of sample with command line <tt>--sample</tt> argument.
 * Setup to production enviroment option (why not?!)
 * Online source files edition.
