@@ -79,6 +79,12 @@ class Piano < Sinatra::Base
     def hash_for(name, type)
       "#{name}.#{type} - " + File.mtime("#{pwd}/#{name}.#{type}").to_s
     end
+    
+    def extract(text, length = 80)
+      words = text.gsub(/<.+?>/, "").split
+      return text if words.length <= length
+      words[0..(length-1)].join(" ") + "..."
+    end
   end
   
   def self.play!

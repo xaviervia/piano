@@ -108,6 +108,10 @@ You can use them in your haml templates like this:
       = style "style.css"
       = script "app.js"
       
+Another helper you may find useful is <tt>extract("source_text/html", word_count = 80)</tt>. Returns an extract of the first <tt>word_count</tt> words (default is 80), html tags stripped, and closed by <tt>"..."</tt> . It does nothing is the text is less than <tt>word_count</tt> words in length.
+
+  %p= extract content, 25
+
 Code is poetry.
 
 === Etags
