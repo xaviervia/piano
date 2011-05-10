@@ -8,4 +8,4 @@
   %p= @data['description']
   %ul
     - @data['list'].each do |item|
-      %li= item
+      %li= unicode_entities item

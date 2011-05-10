@@ -85,6 +85,14 @@ class Piano < Sinatra::Base
       return text if words.length <= length
       words[0..(length-1)].join(" ") + "..."
     end
+    
+    def unicode_entities(string)
+      encodings = ""
+      string.codepoints do |c|
+        encodings += "&##{c};"
+      end
+      encodings
+    end
   end
   
   def self.play!

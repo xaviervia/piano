@@ -97,6 +97,8 @@ Remember that the server folder will be the working directory when the script is
 
 === Convenience helpers
 
+==== <tt>style</tt> and <tt>script</tt>
+
 Piano features two convenience helpers to include stylesheets and javascripts: <tt>style("style.css")</tt> and <tt>script("app.js")</tt>.
 
 You can use them in your haml templates like this:
@@ -108,9 +110,17 @@ You can use them in your haml templates like this:
       = style "style.css"
       = script "app.js"
       
+==== <tt>extract</tt>
+
 Another helper you may find useful is <tt>extract("source_text/html", word_count = 80)</tt>. Returns an extract of the first <tt>word_count</tt> words (default is 80), html tags stripped, and closed by <tt>"..."</tt> . It does nothing is the text is less than <tt>word_count</tt> words in length.
 
   %p= extract content, 25
+  
+==== <tt>unicode_entities</tt>
+
+Useful for hashing email addresses (and hiding them from crawlers. Returns the htmlentities in unicode for each letter of the argument string. For example:
+
+  %p= unicode_entities "sample@address.com"
 
 Code is poetry.
 
@@ -133,6 +143,7 @@ Etags cause client side caching. This should not be a problem since the hash cha
 * Folder paths and sinatra default arguments configurable.
 * Condition for disabling default Piano routes
 * Further documentation of Piano helpers
+* Custom error when there's no data
 * More helpers for semantic data handling.
 * Deploy of sample with command line <tt>--sample</tt> argument.
 * Setup to production enviroment option (why not?!)
