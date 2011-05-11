@@ -2,8 +2,16 @@
 
 require "piano"
 
-if port = ARGV.shift
-  Piano.port = port
+unless ARGV.empty?
+  
+  ARGV.each do |arg|
+    if arg =~ /^\d+$/
+      Piano.port = arg
+    elsif arg =~ /^[a-z]+$/
+      Piano.environment = arg.to_sym
+    end
+  end
+
 end
 
 Piano.run!

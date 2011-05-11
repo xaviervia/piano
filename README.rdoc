@@ -10,9 +10,9 @@ The magic triplet, one command away!
 
 == Standalone Usage
 
-  server/folder$ piano [<port-number>]
+  server/folder$ piano [<port-number> <environment>]
 
-Piano will start a Sinatra server based in the same folder where you run the command, in the port given. If no port is given, piano will start in the default Sinatra port, 4567. 
+Piano will start a Sinatra server based in the same folder where you run the command, in the port and environment given. If no port is given, Piano will start in the default Sinatra port <tt>4567</tt> and the default environment <tt>:development</tt>. 
 
 Haml (http://haml-lang.com) <tt>.haml</tt> files and Sass (http://sass-lang.com) <tt>.sass</tt> and CoffeeScript (http://github.com/josh/ruby-coffee-script) <tt>.coffee</tt> files in the base folder will automatically be mapped to urls.
 
@@ -68,6 +68,17 @@ When receiving a request for <tt>"/users"</tt>, Piano will look up for a YAML fi
   
 Note: You can find this sample in the repository within the <tt>/sample</tt> folder.
 
+== Going :production!
+
+Piano goes production in command line just adding <tt>production</tt> to its arguments. When it goes, it goes this way:
+
+* Now any unmatched route will give a zero-information-disclosure nice old 404 error page
+* And the default behaviour for 500 errors in Sinatra.
+
+For nicety sake, you can personalize 404 pages simply by creating a <tt>server/folder/404.haml</tt> template. Beware when you do: out there be dragons.
+
+Note: you can also add a <tt>server/folder/data/404.yaml</tt> file to keep layer separation even in your error pages.
+
 == Library Usage
 
 If you want, you can include Piano as a library in your own server. Kind of defeats the point of using Piano, but useful if you want to extend its functionality.
@@ -76,8 +87,13 @@ If you want, you can include Piano as a library in your own server. Kind of defe
   
   Piano.play! # .play! added 4 the lulz; Piano.run! will do the trick aswell
 
-<tt>Piano</tt> inherits <tt>Sinatra::Base</tt>, so all of <tt>Sinatra::Base</tt> own methods are available.
+<tt>Piano</tt> inherits <tt>Sinatra::Base</tt>, so all of <tt>Sinatra::Base</tt> own methods are available. Read the Sinatra documentation for further information. Tip: put
+  
+  Piano.environment = :production
 
+just before letting it play for play in production environment!
+
+=== And extending it...
 Of course, you can also do this:
 
   require "piano"
@@ -90,8 +106,23 @@ Of course, you can also do this:
     
     run! # or play!
   end
-  
+
 Remember that the server folder will be the working directory when the script is executed, and not the script path as usual in Sinatra.
+
+You can even do this:
+  
+  class MySinatraServer < Sinatra::Base
+  
+    use Piano
+    
+    get "/" do
+      "My guess is this still won't work, yet I haven't properly tested it"
+    end
+    
+    # ...many other things
+  end
+
+...currently I can't predict its behavior since I haven't tested it.
 
 == Candies for the kidz
 
@@ -146,12 +177,15 @@ Etags cause client side caching. This should not be a problem since the hash cha
 * Custom error when there's no data
 * More helpers for semantic data handling.
 * Deploy of sample with command line <tt>--sample</tt> argument.
-* Setup to production enviroment option (why not?!)
 * Online source files edition.
+* Test <tt>use Piano</tt> within a <tt>Sinatra::Base</tt> class.
+
+DONE &gt; Setup to production enviroment option (why not?!)
+* Now it would be nice to give Piano personalized templates not only to 404 but for all error pages, specially 500
 
 == Tips
 
-As for v0.7, not really suitable for production use, since any empty URL will return a full path disclosure of the file that Piano intended to load.
+As for v0.7.3, Piano has now the ability to go <tt>:production</tt> mode both in command line and library modes.
 
 Piano is in intensive development, you might want to keep track of small updates with Bundler pointing to the github repository. Here is the line to put in your Gemfile
 

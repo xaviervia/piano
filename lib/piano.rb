@@ -73,7 +73,16 @@ class Piano < Sinatra::Base
     end
     
     def bad_luck(path)
-      halt 404, "<h1>You have still to put something here.</h1><p>This is <em>#{path}</em></p><blockquote>Good luck!</blockquote>"
+      if settings.environment == :production
+        if File.exists? "#{pwd}/404.haml"
+          @data = data_for "404"
+          halt 404, haml(:"404")
+        else
+          halt 404, "<h1>404 - Not Found</h1><p>Piano has found nothing in this address</p>"
+        end
+      else
+        halt 404, "<h1>You have still to put something here.</h1><p>This is <em>#{path}</em></p><blockquote>Good luck!</blockquote>"
+      end
     end
     
     def hash_for(name, type)
