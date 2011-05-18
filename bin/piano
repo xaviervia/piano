@@ -1,14 +1,14 @@
 #!/usr/bin/env ruby
 
-require "piano"
-
 unless ARGV.empty?
+  
+  args = {}
   
   ARGV.each do |arg|
     if arg =~ /^\d+$/
-      Piano.port = arg
+      args[:port] = arg
     elsif arg =~ /^noetags$/
-      Piano.etags = :off
+      args[:etags] = :off
     elsif arg =~ /^nocoffee%/
       $notcoffeescript = true
     elsif arg =~ /^sample$/
@@ -29,10 +29,18 @@ unless ARGV.empty?
 #        end
       end 
     elsif arg =~ /^[a-z]+$/
-      Piano.environment = arg.to_sym
+      args[:environment] = arg.to_sym
     end
   end
 
+end
+
+require "piano"
+
+if args
+  Piano.port = args[:port]  if args[:port]
+  Piano.environment = args[:environment] if args[:environment]
+  Piano.etags = args[:etags] if args[:etags]
 end
 
 def make_sample

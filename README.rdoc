@@ -84,6 +84,7 @@ Note: you can also add a <tt>server/folder/data/404.yaml</tt> file to keep layer
 * Port number: Any number passed as an argument to the <tt>piano</tt> command will be used as the port number.
 * Environment: Any string that does not matches any other argument will be setted as the environment. 
 * <tt>noetags</tt>: Adding <tt>noetags</tt> to the shell command will cause Piano to run without etags.
+* <tt>nocoffee</tt>: Adding <tt>nocoffee</tt> to the shell command will cause Piano to Not load the CoffeeScript library. Useful when no JavaScript environment is available.
 
 == Library Usage
 
@@ -185,6 +186,7 @@ Etags cause client side caching. This should not be a problem since the hash cha
 * Deploy of sample with command line <tt>--sample</tt> argument.
 * Online source files edition.
 * Test <tt>use Piano</tt> within a <tt>Sinatra::Base</tt> class.
+* If CoffeeScript can't run, inform of the <tt>nocoffee</tt> command line option.
 
 * Now it would be nice to give Piano personalized templates not only to 404 but for all error pages, specially 500
 * Custom error when there's no data
