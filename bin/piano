@@ -10,7 +10,7 @@ unless ARGV.empty?
     elsif arg =~ /^noetags$/
       Piano.etags = :off
     elsif arg =~ /^nocoffee%/
-      $nocoffeescript = true
+      $notcoffeescript = true
     elsif arg =~ /^sample$/
       puts "Warning: the sample site folder files will be created in the current directory."
       puts "Any files with the same name will be overwritten."
