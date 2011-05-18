@@ -10,7 +10,7 @@ The magic triplet, one command away!
 
 == Standalone Usage
 
-  server/folder$ piano [<port-number> <environment>]
+  server/folder$ piano [<port-number> <environment> [options]]
 
 Piano will start a Sinatra server based in the same folder where you run the command, in the port and environment given. If no port is given, Piano will start in the default Sinatra port <tt>4567</tt> and the default environment <tt>:development</tt>. 
 
@@ -79,6 +79,12 @@ For nicety sake, you can personalize 404 pages simply by creating a <tt>server/f
 
 Note: you can also add a <tt>server/folder/data/404.yaml</tt> file to keep layer separation even in your error pages.
 
+== Command line options summary
+
+* Port number: Any number passed as an argument to the <tt>piano</tt> command will be used as the port number.
+* Environment: Any string that does not matches any other argument will be setted as the environment. 
+* <tt>noetags</tt>: Adding <tt>noetags</tt> to the shell command will cause Piano to run without etags.
+
 == Library Usage
 
 If you want, you can include Piano as a library in your own server. Kind of defeats the point of using Piano, but useful if you want to extend its functionality.
@@ -92,6 +98,8 @@ If you want, you can include Piano as a library in your own server. Kind of defe
   Piano.environment = :production
 
 just before letting it play for play in production environment!
+
+By setting <tt>Piano.etags = :off</tt>, etags will be disabled.
 
 === And extending it...
 Of course, you can also do this:
@@ -170,18 +178,21 @@ Etags cause client side caching. This should not be a problem since the hash cha
 
 == Desired (future) features
 
-* Etag on/off (currently etags are hardcoded on)
-* Folder paths and sinatra default arguments configurable.
+* Folder paths configurable.
 * Condition for disabling default Piano routes
 * Further documentation of Piano helpers
-* Custom error when there's no data
 * More helpers for semantic data handling.
 * Deploy of sample with command line <tt>--sample</tt> argument.
 * Online source files edition.
 * Test <tt>use Piano</tt> within a <tt>Sinatra::Base</tt> class.
 
-DONE &gt; Setup to production enviroment option (why not?!)
 * Now it would be nice to give Piano personalized templates not only to 404 but for all error pages, specially 500
+* Custom error when there's no data
+
+==== Done
+
+* Setup to production enviroment option (why not?!)
+* Etag on/off (currently etags are hardcoded on)
 
 == Tips
 

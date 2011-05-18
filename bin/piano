@@ -7,11 +7,42 @@ unless ARGV.empty?
   ARGV.each do |arg|
     if arg =~ /^\d+$/
       Piano.port = arg
+    elsif arg =~ /^noetags$/
+      Piano.etags = :off
+    elsif arg =~ /^nocoffee%/
+      $nocoffeescript = true
+    elsif arg =~ /^sample$/
+      puts "Warning: the sample site folder files will be created in the current directory."
+      puts "Any files with the same name will be overwritten."
+      print "Do you want to continue? (Yn): "
+      while answer = gets
+        puts answer
+#        if answer =~ /^Y/
+#          puts "Building sample..."
+#          make_sample
+#          break
+#        elsif answer =~ /^n/
+#          puts "Exiting now"
+#          Process.exit!
+#        else
+#          print "Couldn't understand the answer, please do it again (Yn): "
+#        end
+      end 
     elsif arg =~ /^[a-z]+$/
       Piano.environment = arg.to_sym
     end
   end
 
+end
+
+def make_sample
+  require "fileutils"
+  
+  source_dir = File.dirname(File.dirname(File.expand_path(__FILE__)))
+  
+  this_dir = File.expand_path(Dir.pwd)
+  
+  FileUtils.cp_r "#{source_dir}/sample", this_dir
 end
 
 Piano.run!
