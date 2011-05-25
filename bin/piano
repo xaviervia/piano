@@ -9,8 +9,6 @@ unless ARGV.empty?
       args[:port] = arg
     elsif arg =~ /^noetags$/
       args[:etags] = :off
-    elsif arg =~ /^nocoffee%/
-      $notcoffeescript = true
     elsif arg =~ /^sample$/
       puts "Warning: the sample site folder files will be created in the current directory."
       puts "Any files with the same name will be overwritten."
@@ -51,6 +49,10 @@ def make_sample
   this_dir = File.expand_path(Dir.pwd)
   
   FileUtils.cp_r "#{source_dir}/sample", this_dir
+end
+
+if File.exists?(File.expand_path(Dir.pwd) + "/.piano")
+  load File.expand_path(Dir.pwd) + "/.piano"
 end
 
 Piano.run!

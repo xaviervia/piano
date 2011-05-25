@@ -22,6 +22,26 @@ Haml (http://haml-lang.com) <tt>.haml</tt> files and Sass (http://sass-lang.com)
 
 Other files (images, plain text files, etc) will be loaded from the <tt>server/folder/public</tt> as is default behavior in Sinatra.
 
+== Extending functionality
+
+Piano will try to load a file named <tt>server/folder/.piano</tt>. There you can add functionality, like custom helpers. 
+
+==== Sample <tt>.piano</tt> file
+
+This file, for example, will bring back the email masking functionality that was deprecated in version 0.7.6
+
+  class Piano
+    helpers do
+      def unicode_entities(string)
+        encodings = ""
+        string.codepoints do |c|
+          encodings += "&##{c};"
+        end
+        encodings
+      end
+    end
+  end
+
 == YAML Data
 
 When receiving a request for <tt>"/users"</tt>, Piano will look up for a YAML file <tt>server/folder/data/users.haml</tt>. If it is there, the YAML file will be loaded and available for the correspondent Haml template in the <tt>@data</tt> variable.
@@ -84,7 +104,6 @@ Note: you can also add a <tt>server/folder/data/404.yaml</tt> file to keep layer
 * Port number: Any number passed as an argument to the <tt>piano</tt> command will be used as the port number.
 * Environment: Any string that does not matches any other argument will be setted as the environment. 
 * <tt>noetags</tt>: Adding <tt>noetags</tt> to the shell command will cause Piano to run without etags.
-* <tt>nocoffee</tt>: Adding <tt>nocoffee</tt> to the shell command will cause Piano to Not load the CoffeeScript library. Useful when no JavaScript environment is available.
 
 == Library Usage
 
@@ -155,12 +174,6 @@ You can use them in your haml templates like this:
 Another helper you may find useful is <tt>extract("source_text/html", word_count = 80)</tt>. Returns an extract of the first <tt>word_count</tt> words (default is 80), html tags stripped, and closed by <tt>"..."</tt> . It does nothing is the text is less than <tt>word_count</tt> words in length.
 
   %p= extract content, 25
-  
-==== <tt>unicode_entities</tt>
-
-Useful for hashing email addresses (and hiding them from crawlers. Returns the htmlentities in unicode for each letter of the argument string. For example:
-
-  %p= unicode_entities "sample@address.com"
 
 Code is poetry.
 
@@ -176,6 +189,7 @@ Etags cause client side caching. This should not be a problem since the hash cha
 * haml (http://haml-lang.com)
 * sass (http://sass-lang.com)
 * coffee-script (http://github.com/josh/ruby-coffee-script)
+* therubyracer (http://rubygems.org/gems/therubyracer)
 
 == Desired (future) features
 
@@ -186,7 +200,6 @@ Etags cause client side caching. This should not be a problem since the hash cha
 * Deploy of sample with command line <tt>--sample</tt> argument.
 * Online source files edition.
 * Test <tt>use Piano</tt> within a <tt>Sinatra::Base</tt> class.
-* If CoffeeScript can't run, inform of the <tt>nocoffee</tt> command line option.
 
 * Now it would be nice to give Piano personalized templates not only to 404 but for all error pages, specially 500
 * Custom error when there's no data
@@ -195,6 +208,7 @@ Etags cause client side caching. This should not be a problem since the hash cha
 
 * Setup to production enviroment option (why not?!)
 * Etag on/off (currently etags are hardcoded on)
+* CoffeeScript appears to ve working everywhere once <tt>therubyracer</tt> was added as a dependency, so the nocoffee option was deleted. 
 
 == Tips
 
@@ -203,6 +217,10 @@ As for v0.7.3, Piano has now the ability to go <tt>:production</tt> mode both in
 Piano is in intensive development, you might want to keep track of small updates with Bundler pointing to the github repository. Here is the line to put in your Gemfile
 
   gem "piano", :git => "git://github.com/xaviervia/piano.git"
+
+== Deprecated functions
+
+From version 0.7.6 on, <tt>unicode_entities</tt> has been deprecated for better Ruby version backwards compatibility.
 
 = License
 

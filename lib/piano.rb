@@ -3,8 +3,12 @@ require "haml"
 require "sass"
 require "yaml"
 
-unless $notcoffeescript
+begin
   require "coffee-script"
+rescue Exception => error
+  puts "No JavaScript environment was found. Please install therubyracer gem"
+  puts "  gem install therubyracer"
+  Process.exit!
 end
 
 class Piano < Sinatra::Base
@@ -119,14 +123,6 @@ class Piano < Sinatra::Base
       words = text.gsub(/<.+?>/, "").split
       return text if words.length <= length
       words[0..(length-1)].join(" ") + "..."
-    end
-    
-    def unicode_entities(string)
-      encodings = ""
-      string.codepoints do |c|
-        encodings += "&##{c};"
-      end
-      encodings
     end
   end
   
