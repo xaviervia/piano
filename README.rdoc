@@ -24,7 +24,9 @@ Other files (images, plain text files, etc) will be loaded from the <tt>server/f
 
 == Extending functionality
 
-Piano will try to load a file named <tt>server/folder/.piano</tt>. There you can add functionality, like custom helpers. 
+Piano will try to load a file named <tt>server/folder/.piano</tt>. There you can add functionality, like custom helpers and routes.
+
+Any route added to the <tt>.piano</tt> file will be parsed before the default routes from Piano, overriding them. 
 
 ==== Sample <tt>.piano</tt> file
 
@@ -107,13 +109,21 @@ Note: you can also add a <tt>server/folder/data/404.yaml</tt> file to keep layer
 
 == Library Usage
 
-If you want, you can include Piano as a library in your own server. Kind of defeats the point of using Piano, but useful if you want to extend its functionality.
+Piano is fully usable as a library. Its main utility is provide the helpers, <tt>sass("template")</tt>, <tt>coffee("template")</tt>, <tt>try_haml("template")</tt>.
 
   require "piano"
+    
+  class Piano   
+    get "/" do
+      "Let's change the default behaviour"
+    end
+  end  
   
   Piano.play! # .play! added 4 the lulz; Piano.run! will do the trick aswell
+  
+<tt>Piano</tt> inherits <tt>Sinatra::Base</tt>, so all of <tt>Sinatra::Base</tt> own methods are available. Read the Sinatra documentation (http://www.sinatrarb.com/intro) for further information. 
 
-<tt>Piano</tt> inherits <tt>Sinatra::Base</tt>, so all of <tt>Sinatra::Base</tt> own methods are available. Read the Sinatra documentation for further information. Tip: put
+Tip: put
   
   Piano.environment = :production
 
@@ -121,36 +131,19 @@ just before letting it play for play in production environment!
 
 By setting <tt>Piano.etags = :off</tt>, etags will be disabled.
 
-=== And extending it...
-Of course, you can also do this:
+=== Routes
+
+To load the routes (the ones that match your requests with your haml, sass and coffee templates) you have to require also <tt>"piano/routes"</tt>. Usually you'll want to load them after you define your own ones, otherwise you won't be able to override them.
 
   require "piano"
   
-  class ExtendingPiano < Piano    
-    get "/" do
-      "This will not work since this route has already been matched."
+  class Piano
+    get "/special" do
+      "A special route, overriding the default 'special.haml'"
     end
-    # ...but you can add "before do" and "after do" filters
-    
-    run! # or play!
   end
-
-Remember that the server folder will be the working directory when the script is executed, and not the script path as usual in Sinatra.
-
-You can even do this:
   
-  class MySinatraServer < Sinatra::Base
-  
-    use Piano
-    
-    get "/" do
-      "My guess is this still won't work, yet I haven't properly tested it"
-    end
-    
-    # ...many other things
-  end
-
-...currently I can't predict its behavior since I haven't tested it.
+  require "piano/routes"
 
 == Candies for the kidz
 
@@ -189,17 +182,14 @@ Etags cause client side caching. This should not be a problem since the hash cha
 * haml (http://haml-lang.com)
 * sass (http://sass-lang.com)
 * coffee-script (http://github.com/josh/ruby-coffee-script)
-* therubyracer (http://rubygems.org/gems/therubyracer)
 
 == Desired (future) features
 
 * Folder paths configurable.
-* Condition for disabling default Piano routes
 * Further documentation of Piano helpers
 * More helpers for semantic data handling.
 * Deploy of sample with command line <tt>--sample</tt> argument.
 * Online source files edition.
-* Test <tt>use Piano</tt> within a <tt>Sinatra::Base</tt> class.
 
 * Now it would be nice to give Piano personalized templates not only to 404 but for all error pages, specially 500
 * Custom error when there's no data
@@ -208,7 +198,9 @@ Etags cause client side caching. This should not be a problem since the hash cha
 
 * Setup to production enviroment option (why not?!)
 * Etag on/off (currently etags are hardcoded on)
-* CoffeeScript appears to ve working everywhere once <tt>therubyracer</tt> was added as a dependency, so the nocoffee option was deleted. 
+* CoffeeScript appears to be working everywhere once <tt>therubyracer</tt> was setup to be suggested for install in no default javascript environment, so the nocoffee option was deleted. 
+* Default Piano routes are now overridable.
+* No longer relevant since Piano is now fully extendable -> Test <tt>use Piano</tt> within a <tt>Sinatra::Base</tt> class.
 
 == Tips
 

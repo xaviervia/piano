@@ -55,4 +55,6 @@ if File.exists?(File.expand_path(Dir.pwd) + "/.piano")
   load File.expand_path(Dir.pwd) + "/.piano"
 end
 
-Piano.run!
+require "piano/routes"
+
+Piano.play!

@@ -34,28 +34,7 @@ class Piano < Sinatra::Base
   set :views, File.expand_path(Dir.pwd)
   set :etags, :on
   set :etags?, Proc.new { settings.etags == :on }
-  
-  get "/" do
-    @data = data_for "index"
-    try_haml "index"
-  end
-  
-  get %r{/(.+?).css} do |something|
-    content_type :css
-    sass something
-  end
-  
-  get %r{/(.+?).js} do |something|
-    content_type :js
-    coffee something
-  end
-  
-  get all_but(%r{/finetuner(:.+)$}) do 
-    something = request.path[1..(request.path.length-1)]
-    @data = data_for something
-    try_haml something
-  end
-  
+    
   helpers do
     def try_haml(template)
       file_name = "#{pwd}/#{template}.haml"
@@ -103,6 +82,7 @@ class Piano < Sinatra::Base
     end
     
     def bad_luck(path)
+      content_type :html
       if settings.environment == :production
         if File.exists? "#{pwd}/404.haml"
           @data = data_for "404"
