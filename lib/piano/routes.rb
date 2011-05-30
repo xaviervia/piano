@@ -14,7 +14,7 @@ class Piano
     coffee something
   end
   
-  get all_but(%r{/finetuner(:.+)$}) do 
+  get "/*" do 
     something = request.path[1..(request.path.length-1)]
     @data = data_for something
     try_haml something

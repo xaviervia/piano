@@ -108,29 +108,24 @@ Note: you can also add a <tt>server/folder/data/404.yaml</tt> file to keep layer
 * <tt>noetags</tt>: Adding <tt>noetags</tt> to the shell command will cause Piano to run without etags.
 * <tt>views:<views_path></tt> Sets the views folder, within server/folder
 * <tt>public:<public_path></tt> Sets the public folder, within server/folder
-== Library Usage
+== Library Usage as Sinatra Extension
 
-Piano is fully usable as a library. Its main utility is provide the helpers, <tt>sass("template")</tt>, <tt>coffee("template")</tt>, <tt>try_haml("template")</tt>.
+Piano is fully usable as a Sinatra Extension. Provide the helpers, <tt>sass("template")</tt>, <tt>coffee("template")</tt>, <tt>try_haml("template")</tt>.
+
+Note: Prior to version 0.8.2, Piano was intended to be used as a subclass of Sinatra::Base, but now it works both as a Sinatra Extension and as a subclass.
+Further moves to keep most functionality as a Sinatra Extension will be done in the future, except in the <tt>piano/routes</tt>.
 
   require "piano"
     
-  class Piano   
+  class MyPiano < Sinatra::Base   
+    helpers Sinatra::Piano
+    
     get "/" do
       "Let's change the default behaviour"
     end
   end  
   
-  Piano.play! # .play! added 4 the lulz; Piano.run! will do the trick aswell
-  
-<tt>Piano</tt> inherits <tt>Sinatra::Base</tt>, so all of <tt>Sinatra::Base</tt> own methods are available. Read the Sinatra documentation (http://www.sinatrarb.com/intro) for further information. 
-
-Tip: put
-  
-  Piano.environment = :production
-
-just before letting it play for play in production environment!
-
-By setting <tt>Piano.etags = :off</tt>, etags will be disabled.
+  MyPiano.run! 
 
 === Routes
 
@@ -145,6 +140,18 @@ To load the routes (the ones that match your requests with your haml, sass and c
   end
   
   require "piano/routes"
+  
+  Piano.play! # .play! added 4 the lulz; Piano.run! will do the trick aswell
+
+<tt>Piano</tt> inherits <tt>Sinatra::Base</tt>, so all of <tt>Sinatra::Base</tt> own methods are available. Read the Sinatra documentation (http://www.sinatrarb.com/intro) for further information. 
+
+Tip: put
+  
+  Piano.environment = :production
+
+just before letting it play for play in production environment!
+
+By setting <tt>Piano.etags = :off</tt>, etags will be disabled.
 
 == Candies for the kidz
 

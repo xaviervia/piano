@@ -11,36 +11,13 @@ rescue Exception => error
   Process.exit!
 end
 
-class Piano < Sinatra::Base
-
-  class AllButPattern
-    Match = Struct.new(:captures)
-
-    def initialize(except)
-      @except   = except
-      @captures = Match.new([])
-    end
-
-    def match(str)
-      @captures unless @except === str
-    end
-  end
-
-  def self.all_but(pattern)
-    AllButPattern.new(pattern)
-  end
-  
-  set :root, File.expand_path(Dir.pwd)
-  set :views, File.expand_path(Dir.pwd)
-  set :etags, :on
-  set :etags?, Proc.new { settings.etags == :on }
-    
-  helpers do
+module Sinatra
+  module Piano
     def try_haml(template)
       file_name = "#{pwd}/#{template}.haml"
       bad_luck file_name unless File.exists? file_name
      
-      if settings.etags?
+      if etags?
         hash = hash_for template, :haml
         hash += hash_for "data/#{template}", :yaml if File.exists? "#{pwd}/data/#{template}.yaml"
         etag hash
@@ -52,7 +29,7 @@ class Piano < Sinatra::Base
       file_name = "#{pwd}/#{template}.sass"
       bad_luck file_name unless File.exists? file_name
 
-      etag hash_for(template, :sass) if settings.etags?
+      etag hash_for(template, :sass) if etags?
       Sass.compile File.read(file_name), :syntax => :sass
     end
   
@@ -60,7 +37,7 @@ class Piano < Sinatra::Base
       file_name = "#{pwd}/#{template}.coffee"
       bad_luck file_name unless File.exists? file_name
       
-      etag hash_for(template, :coffee) if settings.etags?
+      etag hash_for(template, :coffee) if etags?
       CoffeeScript.compile(File.read(file_name))
     end
     
@@ -114,7 +91,23 @@ class Piano < Sinatra::Base
                 .split("-")
       words[0..(length-1)].join("-")
     end
+    
+    def etags?
+      settings.etags == :on
+    end
   end
+  
+  helpers Piano
+end
+
+
+
+class Piano < Sinatra::Base
+  helpers Sinatra::Piano
+  
+  set :root, File.expand_path(Dir.pwd)
+  set :views, File.expand_path(Dir.pwd)
+  set :etags, :on
   
   def self.play!
     self.run!
