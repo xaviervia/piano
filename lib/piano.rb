@@ -93,7 +93,11 @@ module Sinatra
     end
     
     def etags?
-      settings.etags == :on
+      if settings.respond_to? :etags
+        settings.etags == :on
+      else 
+        true
+      end
     end
   end
   
