@@ -9,6 +9,12 @@ unless ARGV.empty?
       args[:port] = arg
     elsif arg =~ /^noetags$/
       args[:etags] = :off
+    elsif arg =~ /^views:/
+      matches = arg.match(/^views:(.+)$/)
+      args[:views] = matches[1]
+    elsif arg =~ /^public:/
+      matches = arg.match(/^public:(.+)$/)
+      args[:public] = matches[1]
     elsif arg =~ /^sample$/
       puts "Warning: the sample site folder files will be created in the current directory."
       puts "Any files with the same name will be overwritten."
@@ -39,6 +45,8 @@ if args
   Piano.port = args[:port]  if args[:port]
   Piano.environment = args[:environment] if args[:environment]
   Piano.etags = args[:etags] if args[:etags]
+  Piano.views = File.expand_path(Dir.pwd) + "/" +args[:views] if args[:views]
+  Piano.public = File.expand_path(Dir.pwd) + "/" + args[:public] if args[:public]
 end
 
 def make_sample

@@ -78,7 +78,7 @@ class Piano < Sinatra::Base
     end
     
     def pwd
-      File.expand_path(Dir.pwd)
+      settings.views
     end
     
     def bad_luck(path)

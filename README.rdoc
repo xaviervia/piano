@@ -106,7 +106,8 @@ Note: you can also add a <tt>server/folder/data/404.yaml</tt> file to keep layer
 * Port number: Any number passed as an argument to the <tt>piano</tt> command will be used as the port number.
 * Environment: Any string that does not matches any other argument will be setted as the environment. 
 * <tt>noetags</tt>: Adding <tt>noetags</tt> to the shell command will cause Piano to run without etags.
-
+* <tt>views:<views_path></tt> Sets the views folder, within server/folder
+* <tt>public:<public_path></tt> Sets the public folder, within server/folder
 == Library Usage
 
 Piano is fully usable as a library. Its main utility is provide the helpers, <tt>sass("template")</tt>, <tt>coffee("template")</tt>, <tt>try_haml("template")</tt>.
