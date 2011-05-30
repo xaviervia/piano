@@ -104,6 +104,16 @@ class Piano < Sinatra::Base
       return text if words.length <= length
       words[0..(length-1)].join(" ") + "..."
     end
+    
+    def link(text, length = 5)
+      words = text
+                .gsub(/<.+?>/, "")
+                .gsub(" ", "-")
+                .downcase
+                .gsub(/[^a-z0-9\-]/, "")
+                .split("-")
+      words[0..(length-1)].join("-")
+    end
   end
   
   def self.play!
