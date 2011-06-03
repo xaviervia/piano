@@ -24,11 +24,11 @@ Other files (images, plain text files, etc) will be loaded from the <tt>server/f
 
 == Extending functionality
 
-Piano will try to load a file named <tt>server/folder/.piano</tt>. There you can add functionality, like custom helpers and routes.
+Piano will try to load a file named <tt>server/folder/Pianofile</tt>. There you can add functionality, like custom helpers and routes.
 
-Any route added to the <tt>.piano</tt> file will be parsed before the default routes from Piano, overriding them. 
+Any route added to the <tt>Pianofile</tt> will be parsed before the default routes from Piano, overriding them. 
 
-==== Sample <tt>.piano</tt> file
+==== Sample <tt>Pianofile</tt>
 
 This file, for example, will bring back the email masking functionality that was deprecated in version 0.7.6
 

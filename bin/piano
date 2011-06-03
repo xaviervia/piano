@@ -59,7 +59,12 @@ def make_sample
   FileUtils.cp_r "#{source_dir}/sample", this_dir
 end
 
-if File.exists?(File.expand_path(Dir.pwd) + "/.piano")
+if File.exists?(File.expand_path(Dir.pwd) + "/Pianofile")
+  piano_file = File.expand_path(Dir.pwd) + "/Pianofile"
+  puts "Pianofile found, loading..."
+  load piano_file
+end
+if File.exists?(File.expand_path(Dir.pwd) + "/.piano") # Deprecate soon
   load File.expand_path(Dir.pwd) + "/.piano"
 end
 
