@@ -66,11 +66,9 @@ self.delegate Piano,  :get, :patch, :put, :post, :delete,
                       :before, :after, :error, :not_found, 
                       :configure, :set, :mime_type, :enable, 
                       :disable, :use, :development?, :test?, 
-                      :production?, :helpers, :settings,
-                      :try_haml, :sass, :coffee,
-                      :data_for, :style, :script, :pwd,
-                      :bad_luck, :hash_for, :extract, :link,
-                      :t, :etags?
+                      :production?, :helpers, :settings
+
+self.helpers Sinatra::Piano
 
 if File.exists?(File.expand_path(Dir.pwd) + "/Pianofile")
   piano_file = File.expand_path(Dir.pwd) + "/Pianofile"
