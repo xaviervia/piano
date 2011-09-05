@@ -32,15 +32,15 @@ Any route added to the <tt>Pianofile</tt> will be parsed before the default rout
 
 This file, for example, will bring back the email masking functionality that was deprecated in version 0.7.6
 
-  class Piano
-    helpers do
-      def unicode_entities(string)
-        encodings = ""
-        string.codepoints do |c|
-          encodings += "&##{c};"
-        end
-        encodings
+Note: as version 0.8.4, direct DSL usage, Sinatra-style, is available. This documentation will be updated as soon as is stable.
+
+  helpers do
+    def unicode_entities(string)
+      encodings = ""
+      string.codepoints do |c|
+        encodings += "&##{c};"
       end
+      encodings
     end
   end
 
