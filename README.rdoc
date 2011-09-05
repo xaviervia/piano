@@ -194,6 +194,7 @@ Etags cause client side caching. This should not be a problem since the hash cha
 == Desired (future) features
 
 * Folder paths configurable.
+* <tt>style</tt> and <tt>script</tt> helpers working with symbols.
 * Further documentation of Piano helpers
 * More helpers for semantic data handling.
 * Deploy of sample with command line <tt>--sample</tt> argument.
@@ -213,10 +214,6 @@ Etags cause client side caching. This should not be a problem since the hash cha
 == Tips
 
 As for v0.7.3, Piano has now the ability to go <tt>:production</tt> mode both in command line and library modes.
-
-Piano is in intensive development, you might want to keep track of small updates with Bundler pointing to the github repository. Here is the line to put in your Gemfile
-
-  gem "piano", :git => "git://github.com/xaviervia/piano.git"
 
 == Deprecated functions
 
