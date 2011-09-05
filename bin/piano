@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby
+require "metafun/delegator"
 
 unless ARGV.empty?
   
@@ -58,6 +59,14 @@ def make_sample
   
   FileUtils.cp_r "#{source_dir}/sample", this_dir
 end
+
+self.extend Metafun::Delegator
+self.delegate Piano,  :get, :patch, :put, :post, :delete, 
+                      :head, :options, :template, :layout,
+                      :before, :after, :error, :not_found, 
+                      :configure, :set, :mime_type, :enable, 
+                      :disable, :use, :development?, :test?, 
+                      :production?, :helpers, :settings
 
 if File.exists?(File.expand_path(Dir.pwd) + "/Pianofile")
   piano_file = File.expand_path(Dir.pwd) + "/Pianofile"
