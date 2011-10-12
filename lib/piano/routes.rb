@@ -4,12 +4,12 @@ class Piano
     try_haml "index"
   end
   
-  get %r{/(.+?).css} do |something|
+  get %r{/(.+?).css$} do |something|
     content_type :css
     sass something
   end
   
-  get %r{/(.+?).js} do |something|
+  get %r{/(.+?).js$} do |something|
     content_type :js
     coffee something
   end

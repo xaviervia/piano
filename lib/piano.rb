@@ -135,3 +135,5 @@ class Piano < Sinatra::Base
     self.run! 
   end
 end
+
+require "piano/controllerloader"
