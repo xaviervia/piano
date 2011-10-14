@@ -77,10 +77,11 @@ if File.exists?(File.expand_path(Dir.pwd) + "/Pianofile")
   load File.expand_path(Dir.pwd) + "/Pianofile"
 end
 
-require "piano/routes"
-
 if Dir.exist? "controllers"
+  puts "'controllers' directory found, loading '.controller' files"
   Piano::ControllerLoader.folder "controllers" 
 end
+
+require "piano/routes"
 
 Piano::Base.play!
