@@ -43,11 +43,11 @@ end
 require "piano"
 
 if args
-  Piano.port = args[:port]  if args[:port]
-  Piano.environment = args[:environment] if args[:environment]
-  Piano.etags = args[:etags] if args[:etags]
-  Piano.views = File.expand_path(Dir.pwd) + "/" +args[:views] if args[:views]
-  Piano.public = File.expand_path(Dir.pwd) + "/" + args[:public] if args[:public]
+  Piano::Base.port = args[:port]  if args[:port]
+  Piano::Base.environment = args[:environment] if args[:environment]
+  Piano::Base.etags = args[:etags] if args[:etags]
+  Piano::Base.views = File.expand_path(Dir.pwd) + "/" +args[:views] if args[:views]
+  Piano::Base.public = File.expand_path(Dir.pwd) + "/" + args[:public] if args[:public]
 end
 
 def make_sample
@@ -61,7 +61,7 @@ def make_sample
 end
 
 self.extend Metafun::Delegator
-self.delegate Piano,  :get, :patch, :put, :post, :delete, 
+self.delegate Piano::Base,  :get, :patch, :put, :post, :delete, 
                       :head, :options, :template, :layout,
                       :before, :after, :error, :not_found, 
                       :configure, :set, :mime_type, :enable, 
@@ -83,4 +83,4 @@ end
 
 require "piano/routes"
 
-Piano.play!
+Piano::Base.play!
