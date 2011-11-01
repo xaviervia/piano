@@ -57,7 +57,7 @@ module Sinatra
     
     # Loads and parses the YAML data from the data directory
     def data_for(template)
-      file_name = "#{settings.data}/#{template}.yaml"
+      file_name = "#{pwd}/data/#{template}.yaml"
       YAML.load_file(file_name) if File.exists?(file_name)
     end
     
@@ -132,7 +132,12 @@ module Sinatra
     #
     # You can specify a word length in the second argument.
     def link(text, length = 5)
-      words = text.gsub(/<.+?>/, "").gsub(" ", "-").downcase.gsub(/[^a-z0-9\-]/, "").split("-")
+      words = text
+                .gsub(/<.+?>/, "")
+                .gsub(" ", "-")
+                .downcase
+                .gsub(/[^a-z0-9\-]/, "")
+                .split("-")
       words[0..(length-1)].join("-")
     end
     
@@ -161,7 +166,6 @@ module Piano
     
     set :root, File.expand_path(Dir.pwd)
     set :views, File.expand_path(Dir.pwd)
-    set :data, File.expand_path(Dir.pwd + "/data")
     set :etags, :on
     set :i18n_path, File.expand_path(Dir.pwd) + "/config/locale"
     

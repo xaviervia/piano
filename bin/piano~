@@ -77,7 +77,7 @@ if File.exists?(File.expand_path(Dir.pwd) + "/Pianofile")
   load File.expand_path(Dir.pwd) + "/Pianofile"
 end
 
-if File.exist?("controllers") && File.directory?("controllers")
+if File.exist? "controllers" && File.directory? "controllers"
   puts "'controllers' directory found, loading '.controller' files"
   Piano::ControllerLoader.folder "controllers" 
 end

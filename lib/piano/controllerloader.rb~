@@ -1,5 +1,7 @@
 require "polyglot"
 
+include RSpec::Matchers
+
 module Piano
   # Controller loader especifically for polyglot
   class PolyglotControllerLoader
