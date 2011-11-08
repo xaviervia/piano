@@ -35,7 +35,7 @@ module Piano
       end
       I18n.load_path = i18n_files
     end
-    
+        
     def self.play!
       self.run! 
     end

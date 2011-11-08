@@ -16,23 +16,6 @@ unless ARGV.empty?
     elsif arg =~ /^public:/
       matches = arg.match(/^public:(.+)$/)
       args[:public] = matches[1]
-    elsif arg =~ /^sample$/
-      puts "Warning: the sample site folder files will be created in the current directory."
-      puts "Any files with the same name will be overwritten."
-      print "Do you want to continue? (Yn): "
-      while answer = gets
-        puts answer
-#        if answer =~ /^Y/
-#          puts "Building sample..."
-#          make_sample
-#          break
-#        elsif answer =~ /^n/
-#          puts "Exiting now"
-#          Process.exit!
-#        else
-#          print "Couldn't understand the answer, please do it again (Yn): "
-#        end
-      end 
     elsif arg =~ /^[a-z]+$/
       args[:environment] = arg.to_sym
     end
@@ -48,16 +31,6 @@ if args
   Piano::Base.etags = args[:etags] if args[:etags]
   Piano::Base.views = File.expand_path(Dir.pwd) + "/" +args[:views] if args[:views]
   Piano::Base.public = File.expand_path(Dir.pwd) + "/" + args[:public] if args[:public]
-end
-
-def make_sample
-  require "fileutils"
-  
-  source_dir = File.dirname(File.dirname(File.expand_path(__FILE__)))
-  
-  this_dir = File.expand_path(Dir.pwd)
-  
-  FileUtils.cp_r "#{source_dir}/sample", this_dir
 end
 
 self.extend Metafun::Delegator
