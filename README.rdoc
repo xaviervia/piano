@@ -12,7 +12,7 @@ The magic triplet, one command away!
 
   server/folder$ piano [<port-number> <environment> [options]]
 
-Piano will start a Sinatra server based in the same folder where you run the command, in the port and environment given. If no port is given, Piano will start in the default Sinatra port <tt>4567</tt> and the default environment <tt>:development</tt>. 
+Piano will start a Sinatra server based in the same folder where you run the command, in the port and environment given. If no port or environment is given, Piano will start in the default Sinatra port <tt>4567</tt> and the default environment <tt>:development</tt>. 
 
 Haml (http://haml-lang.com) <tt>.haml</tt> files and Sass (http://sass-lang.com) <tt>.sass</tt> and CoffeeScript (http://github.com/josh/ruby-coffee-script) <tt>.coffee</tt> files in the base folder will automatically be mapped to urls.
 
@@ -32,7 +32,21 @@ Any route added to the <tt>Pianofile</tt> will be parsed before the default rout
 
 This file, for example, will bring back the email masking functionality that was deprecated in version 0.7.6
 
-Note: as version 0.8.4, direct DSL usage, Sinatra-style, is available. This documentation will be updated as soon as is stable.
+  get "/" do
+    "Hi! Just testing"
+  end
+
+  get "/email" do
+    "Here is my email: #{unicode_entities('xavier@example.com')}"
+  end
+
+  post "/" do  # The "/" route, is considered "index" for the haml and yaml files
+    require "psych"
+    
+    File.open "data/index.yaml", "w" do |file|
+      file.write params.to_yaml
+    end
+  end
 
   helpers do
     def unicode_entities(string)
