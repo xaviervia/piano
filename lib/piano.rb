@@ -43,3 +43,4 @@ module Piano
 end
 
 require "piano/controllerloader"
+require "piano/version"
