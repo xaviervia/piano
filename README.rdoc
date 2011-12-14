@@ -194,7 +194,7 @@ Another helper you may find useful is <tt>extract("source_text/html", word_count
 
 Most times on a POST request the server performs an action and you want to give the user some feedback about that action. The data for that feedback has become known as "flash text" steming from the Rails argot.
 
-Piano provides <tt>flash</tt> for you, ease to use. A sample
+Piano provides <tt>flash</tt> for you, easy to use. A sample
 
 ==== Pianofile
   
@@ -203,6 +203,8 @@ Piano provides <tt>flash</tt> for you, ease to use. A sample
     
     flash "The article was created"   # You set the flash text by calling `flash` 
                                       # with an argument
+                                      
+    redirect "/articles"
   end
 
 ==== articles.haml
