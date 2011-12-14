@@ -190,6 +190,34 @@ Another helper you may find useful is <tt>extract("source_text/html", word_count
 
   %p= extract content, 25
 
+=== <tt>flash</tt> & <tt>flash?</tt>
+
+Most times on a POST request the server performs an action and you want to give the user some feedback about that action. The data for that feedback has become known as "flash text" steming from the Rails argot.
+
+Piano provides <tt>flash</tt> for you, ease to use. A sample
+
+==== Pianofile
+  
+  post "/article/new" do
+    Article.create params             # ActiveRecord-like article creation
+    
+    flash "The article was created"   # You set the flash text by calling `flash` 
+                                      # with an argument
+  end
+
+==== articles.haml
+
+  %html
+    %head
+      %title Articles index
+    %body
+      - if flash? # Checks if any flash text is setted
+        %output= flash
+
+<tt>flash</tt> called without an argument destructively returns the flash text. Destructively so further request to <tt>/articles</tt> (which in this case will bring up <tt>articles.haml</tt>) will not display the flash text. 
+
+Internally, <tt>flash</tt> and <tt>flash?</tt> set and check the <tt>session[:flash]</tt> object.
+
 Code is poetry.
 
 === Etags

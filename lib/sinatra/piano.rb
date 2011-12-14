@@ -131,10 +131,29 @@ module Sinatra
       end
     end
     
+    # Returns the session[:flash] if is defined, nil otherwise
+    def flash?  
+      session[:flash]
+    end
+
+    # If an argument is passed, it sets the `session[:flash]` to the passed argument
+    #
+    # Otherwise, returns `session[:flash]` and removes `:flash` from the `session`
+    # hash to make it available for subsequent requests.
+    def flash data = nil
+      if data
+        session[:flash] = data
+      else
+        flash_text = session[:flash]
+        session.delete :flash
+        return flash_text
+      end
+    end
+    
     # Non implemented yet
     def t(key)
       I18n.translate key
-    end
+    end   
   end
   
   register Piano
