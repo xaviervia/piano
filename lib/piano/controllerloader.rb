@@ -2,7 +2,6 @@ module Piano
   # Handler of .controller files loading
   class ControllerLoader
     def self.folder path
-      $LOAD_PATH << Dir.pwd
       recursive path do |item|
         load item
       end

@@ -190,35 +190,25 @@ Another helper you may find useful is <tt>extract("source_text/html", word_count
 
   %p= extract content, 25
 
-=== <tt>flash</tt> & <tt>flash?</tt>
+=== <tt>link</tt>
 
-Most times on a POST request the server performs an action and you want to give the user some feedback about that action. The data for that feedback has become known as "flash text" steming from the Rails argot.
+No, it does not print an anchor: it strips all strange characters from a string and replaces all whitespace with "-". If the text is too long, it cuts it. 
 
-Piano provides <tt>flash</tt> for you, easy to use. A sample
+Really useful when generating uri's for articles, or html id attributes.
 
-==== Pianofile
+  %a(href="/articles/#{article.id}-#{link(article.title)}")= article.title
   
-  post "/article/new" do
-    Article.create params             # ActiveRecord-like article creation
-    
-    flash "The article was created"   # You set the flash text by calling `flash` 
-                                      # with an argument
-                                      
-    redirect "/articles"
-  end
+or
+  
+  %h2(id="#{link(subtitle,4)}")= subtitle
+  
+In this example, the second argument (4) ensures that the link is done with no more than four of the subtitle's words.
 
-==== articles.haml
+=== <tt>flash</tt>
 
-  %html
-    %head
-      %title Articles index
-    %body
-      - if flash? # Checks if any flash text is setted
-        %output= flash
+Piano now comes bundled with https://github.com/SFEley/sinatra-flash so you can use the <tt>flash</tt> helper as in Rails. (0.10.9+) 
 
-<tt>flash</tt> called without an argument destructively returns the flash text. Destructively so further request to <tt>/articles</tt> (which in this case will bring up <tt>articles.haml</tt>) will not display the flash text. 
-
-Internally, <tt>flash</tt> and <tt>flash?</tt> set and check the <tt>session[:flash]</tt> object.
+Please go to the https://github.com/SFEley/sinatra-flash documentation for further reading. Is a nice gem and you might find it really useful.
 
 Code is poetry.
 
@@ -228,32 +218,17 @@ Since parsing YAML, Sass, Haml and CoffeeScript can be quite a burden for the pr
 
 Etags cause client side caching. This should not be a problem since the hash changes every time a source file is modified (including the YAML data files), forcing the User-Agent to update its cache, but still is worth noting as I might not be fully aware of cache-related issues that Etag-ging may trigger.
 
-== Gem dependencies
-
-* sinatra (http://sinatrarb.com)
-* haml (http://haml-lang.com)
-* sass (http://sass-lang.com)
-* coffee-script (http://github.com/josh/ruby-coffee-script)
-
 == Desired (future) features
 
-* Folder paths configurable.
+* Features and specs covering all Piano's functionality.
+* Agnosticism. Currently Piano is kind of HAML&SASS monotheistic.
 * <tt>style</tt> and <tt>script</tt> helpers working with symbols.
-* Further documentation of Piano helpers
 * More helpers for semantic data handling.
 * Deploy of sample with command line <tt>--sample</tt> argument.
 * Online source files edition.
 
 * Now it would be nice to give Piano personalized templates not only to 404 but for all error pages, specially 500
 * Custom error when there's no data
-
-==== Done
-
-* Setup to production enviroment option (why not?!)
-* Etag on/off (currently etags are hardcoded on)
-* CoffeeScript appears to be working everywhere once <tt>therubyracer</tt> was setup to be suggested for install in no default javascript environment, so the nocoffee option was deleted. 
-* Default Piano routes are now overridable.
-* No longer relevant since Piano is now fully extendable -> Test <tt>use Piano</tt> within a <tt>Sinatra::Base</tt> class.
 
 == Tips
 

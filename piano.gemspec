@@ -14,6 +14,7 @@ Gem::Specification.new do |s|
 
   s.rubyforge_project = "piano"
   s.add_dependency "sinatra", ">= 1.2.6"
+  s.add_dependency "sinatra-flash", ">= 0.3.0"
   s.add_dependency "haml", ">= 3.1.1"
   s.add_dependency "sass", ">= 3.1.1"
   s.add_dependency "coffee-script", ">= 2.2.0"

@@ -2,43 +2,28 @@ module Sinatra
   
   # Piano was originally though as a Sinatra extension
   # That's why the code was defined here
-  module Piano
+  module Piano    
     
-    # Like Sinatra's/Tilt's `haml`, but adds etags and
-    # returns a 404 with some hints if the haml is not found
-    def try_haml(template)
-      file_name = "#{pwd}/#{template}.haml"
-      bad_luck file_name unless File.exists? file_name
-     
-      if etags?
-        hash = hash_for template, :haml
-        hash += hash_for "data/#{template}", :yaml if File.exists? "#{pwd}/data/#{template}.yaml"
-        etag hash
-      end
-      haml template.to_sym
-    end
-    
-    # Loads and parses a `sass` template from the :views directory.
-    # Adds an etag if `etags?` is enabled and returns 404 and hints
-    # if it can't find the .sass file.
-    def sass(template)
-      file_name = "#{pwd}/#{template}.sass"
+    # Replacemente for :try_haml, :sass & :coffee. Agnostic
+    # Work in progress
+    def template resource, type = :haml
+      file_name = "#{settings.views}/#{resource}.#{type}"
       bad_luck file_name unless File.exists? file_name
 
-      etag hash_for(template, :sass) if etags?
-      Sass.compile File.read(file_name), :syntax => :sass
-    end
-  
-    # Loads and parses a `coffee-script` template from the :views
-    # directory.
-    # Adds an etag if `etags?` is enabled and returns 404 and hints
-    # if it can't find the .coffee file.
-    def coffee(template)
-      file_name = "#{pwd}/#{template}.coffee"
-      bad_luck file_name unless File.exists? file_name
+      if etags?
+        if type == :haml
+          hash = hash_for template, :haml
+          if File.exists? "#{settings.views}/#{settings.data}/#{template}.yaml"
+            hash += hash_for "#{settings.data}/#{template}", :yaml
+          end
+          
+          etag hash
+        else
+          etag hash_for(resource, type)
+        end      
+      end
       
-      etag hash_for(template, :coffee) if etags?
-      CoffeeScript.compile(File.read(file_name))
+      send type, resource # Send the template to Sinatra to take care of it    
     end
     
     # Loads and parses the YAML data from the data directory
@@ -48,13 +33,13 @@ module Sinatra
     end
     
     # Sugar: formats a css stylesheet <link /> tag with the input
-    def style(path)
-      "<link rel='stylesheet' type='text/css' href='#{path}' />"
+    def style path, more = ""
+      "<link rel='stylesheet' type='text/css' href='#{path}' #{more} />"
     end
     
     # Sugar: formats a javascript <script> tag with the input
-    def script(path)
-      "<script type='text/javascript' src='#{path}'></script>"
+    def script path, more = ""
+      "<script type='text/javascript' src='#{path}' #{more} ></script>"
     end
     
     # Returns the path to the :views directory
@@ -130,30 +115,45 @@ module Sinatra
         true
       end
     end
-    
-    # Returns the session[:flash] if is defined, nil otherwise
-    def flash?  
-      session[:flash]
-    end
+  
+    # Deprecated. All of this
 
-    # If an argument is passed, it sets the `session[:flash]` to the passed argument
-    #
-    # Otherwise, returns `session[:flash]` and removes `:flash` from the `session`
-    # hash to make it available for subsequent requests.
-    def flash data = nil
-      if data
-        session[:flash] = data
-      else
-        flash_text = session[:flash]
-        session.delete :flash
-        return flash_text
+    # Like Sinatra's/Tilt's `haml`, but adds etags and
+    # returns a 404 with some hints if the haml is not found
+    def try_haml(template)
+      file_name = "#{pwd}/#{template}.haml"
+      bad_luck file_name unless File.exists? file_name
+     
+      if etags?
+        hash = hash_for template, :haml
+        hash += hash_for "data/#{template}", :yaml if File.exists? "#{pwd}/data/#{template}.yaml"
+        etag hash
       end
+      haml template.to_sym
     end
     
-    # Non implemented yet
-    def t(key)
-      I18n.translate key
-    end   
+    # Loads and parses a `sass` template from the :views directory.
+    # Adds an etag if `etags?` is enabled and returns 404 and hints
+    # if it can't find the .sass file.
+    def sass(template)
+      file_name = "#{pwd}/#{template}.sass"
+      bad_luck file_name unless File.exists? file_name
+
+      etag hash_for(template, :sass) if etags?
+      Sass.compile File.read(file_name), :syntax => :sass
+    end
+  
+    # Loads and parses a `coffee-script` template from the :views
+    # directory.
+    # Adds an etag if `etags?` is enabled and returns 404 and hints
+    # if it can't find the .coffee file.
+    def coffee(template)
+      file_name = "#{pwd}/#{template}.coffee"
+      bad_luck file_name unless File.exists? file_name
+      
+      etag hash_for(template, :coffee) if etags?
+      CoffeeScript.compile(File.read(file_name))
+    end
   end
   
   register Piano
