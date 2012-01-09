@@ -2,23 +2,23 @@ module Piano
   class Base
     get "/" do
       @data = data_for "index"
-      template "index"
+      fetch :index
     end
     
     get %r{/(.+?).css$} do |something|
       content_type :css
-      template something, :sass
+      fetch something, :sass
     end
     
     get %r{/(.+?).js$} do |something|
       content_type :js
-      template something, :coffee
+      fetch something, :coffee
     end
     
     get "/*" do 
       something = request.path[1..(request.path.length-1)]
       @data = data_for something
-      template something
+      fetch something
     end
   end
 end

@@ -6,15 +6,22 @@ module Sinatra
     
     # Replacemente for :try_haml, :sass & :coffee. Agnostic
     # Work in progress
-    def template resource, type = :haml
+    def fetch *args
+      resource = args.shift
+      unless args.empty?
+        type = args.shift
+      else 
+        type = :haml
+      end
+      
       file_name = "#{settings.views}/#{resource}.#{type}"
-      bad_luck file_name unless File.exists? file_name
+      return bad_luck file_name unless File.exists? file_name
 
       if etags?
         if type == :haml
-          hash = hash_for template, :haml
-          if File.exists? "#{settings.views}/#{settings.data}/#{template}.yaml"
-            hash += hash_for "#{settings.data}/#{template}", :yaml
+          hash = hash_for resource, :haml
+          if File.exists? "#{settings.views}/#{settings.data}/#{resource}.yaml"
+            hash += hash_for "#{settings.data}/#{resource}", :yaml
           end
           
           etag hash
@@ -23,7 +30,7 @@ module Sinatra
         end      
       end
       
-      send type, resource # Send the template to Sinatra to take care of it    
+      send type, resource, *args # Send the template to Sinatra to take care of it    
     end
     
     # Loads and parses the YAML data from the data directory
@@ -42,11 +49,6 @@ module Sinatra
       "<script type='text/javascript' src='#{path}' #{more} ></script>"
     end
     
-    # Returns the path to the :views directory
-    def pwd
-      settings.views
-    end
-    
     # Fails. Shouts a 404 response and prints hints
     #
     # If Piano is running in production mode, prints a plain 404 html
@@ -54,7 +56,7 @@ module Sinatra
     def bad_luck(path)
       content_type :html
       if settings.environment == :production
-        if File.exists? "#{pwd}/404.haml"
+        if File.exists? "#{settings.views}/404.haml"
           @data = data_for "404"
           halt 404, haml(:"404")
         else
@@ -68,7 +70,7 @@ module Sinatra
     # Builds a hash for a file within the :views directory
     # Note: I feel like this functionality should be private
     def hash_for(name, type)
-      "#{name}.#{type} - " + File.mtime("#{pwd}/#{name}.#{type}").to_s
+      "#{name}.#{type} - " + File.mtime("#{settings.views}/#{name}.#{type}").to_s
     end
     
     # Makes an extract out of the given text with the default length
@@ -116,44 +118,6 @@ module Sinatra
       end
     end
   
-    # Deprecated. All of this
-
-    # Like Sinatra's/Tilt's `haml`, but adds etags and
-    # returns a 404 with some hints if the haml is not found
-    def try_haml(template)
-      file_name = "#{pwd}/#{template}.haml"
-      bad_luck file_name unless File.exists? file_name
-     
-      if etags?
-        hash = hash_for template, :haml
-        hash += hash_for "data/#{template}", :yaml if File.exists? "#{pwd}/data/#{template}.yaml"
-        etag hash
-      end
-      haml template.to_sym
-    end
-    
-    # Loads and parses a `sass` template from the :views directory.
-    # Adds an etag if `etags?` is enabled and returns 404 and hints
-    # if it can't find the .sass file.
-    def sass(template)
-      file_name = "#{pwd}/#{template}.sass"
-      bad_luck file_name unless File.exists? file_name
-
-      etag hash_for(template, :sass) if etags?
-      Sass.compile File.read(file_name), :syntax => :sass
-    end
-  
-    # Loads and parses a `coffee-script` template from the :views
-    # directory.
-    # Adds an etag if `etags?` is enabled and returns 404 and hints
-    # if it can't find the .coffee file.
-    def coffee(template)
-      file_name = "#{pwd}/#{template}.coffee"
-      bad_luck file_name unless File.exists? file_name
-      
-      etag hash_for(template, :coffee) if etags?
-      CoffeeScript.compile(File.read(file_name))
-    end
   end
   
   register Piano

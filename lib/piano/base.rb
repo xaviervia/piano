@@ -10,8 +10,8 @@ module Piano
     set :etags, :on
     set :multidomain, :off
     
-    class << self
-      alias :run! :play!
+    def self.play!
+      self.run!
     end    
   end
 end
