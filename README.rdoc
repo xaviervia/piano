@@ -220,6 +220,7 @@ Etags cause client side caching. This should not be a problem since the hash cha
 
 == Desired (future) features
 
+* Piano is not working in REE. Fix
 * Add "lib" to $LOAD_PATH by default. Can't hurt
 * Features and specs covering all Piano's functionality.
 * Agnosticism. Currently Piano is kind of HAML&SASS monotheistic.
