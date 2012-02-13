@@ -231,6 +231,10 @@ Etags cause client side caching. This should not be a problem since the hash cha
 * Now it would be nice to give Piano personalized templates not only to 404 but for all error pages, specially 500
 * Custom error when there's no data
 
+== Known issues
+
+* Sinatra::Piano rules break when a route consisting of only a number is passed
+
 == Tips
 
 As for v0.7.3, Piano has now the ability to go <tt>:production</tt> mode both in command line and library modes.
