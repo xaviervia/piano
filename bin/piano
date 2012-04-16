@@ -45,7 +45,7 @@ self.delegate Piano::Base,  :get, :patch, :put, :post, :delete,
 
 self.helpers Sinatra::Piano
 
-$LOAD_PATH << Dir.pwd
+$LOAD_PATH << Dir.pwd + "/lib"
 
 if File.exists?("Pianofile")
   puts "Pianofile found, loading..."
