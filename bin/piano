@@ -59,4 +59,5 @@ end
 
 require "piano/routes"
 
+puts "Starting Sinatra from Piano #{Piano::VERSION}"
 Piano::Base.play!
