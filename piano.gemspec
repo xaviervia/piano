@@ -13,13 +13,6 @@ Gem::Specification.new do |s|
   s.description = %q{Out-of-the-box sinatra server for web site sketching using haml + sass + coffee-script}
 
   s.rubyforge_project = "piano"
-  s.add_dependency "sinatra", ">= 1.2.6"
-  s.add_dependency "sinatra-flash", ">= 0.3.0"
-  s.add_dependency "haml", ">= 3.1.1"
-  s.add_dependency "sass", ">= 3.1.1"
-  s.add_dependency "coffee-script", ">= 2.2.0"
-  s.add_dependency "i18n", ">= 0.6.0"
-  s.add_dependency "metafun"
 
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
