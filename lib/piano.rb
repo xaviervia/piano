@@ -3,6 +3,7 @@ require "sinatra/flash"
 
 require "haml"
 require "sass"
+require "compass"
 require "yaml"
 require "i18n"
 

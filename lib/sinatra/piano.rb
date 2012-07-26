@@ -30,7 +30,7 @@ module Sinatra
         end      
       end
       
-      send type, resource, *args # Send the template to Sinatra to take care of it    
+      send type, resource.to_sym, *args # Send the template to Sinatra to take care of it
     end
     
     # Loads and parses the YAML data from the data directory
