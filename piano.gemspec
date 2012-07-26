@@ -17,6 +17,7 @@ Gem::Specification.new do |s|
   s.add_dependency "sinatra-flash", ">= 0.3.0"
   s.add_dependency "haml", ">= 3.1.1"
   s.add_dependency "sass", ">= 3.1.1"
+  s.add_dependency "compass", ">= 0.12.2"
   s.add_dependency "coffee-script", ">= 2.2.0"
   s.add_dependency "i18n", ">= 0.6.0"
   s.add_dependency "metafun"
