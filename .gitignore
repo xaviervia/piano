@@ -5,3 +5,4 @@ pkg/*
 views/*
 test/*
 config/*
+.sass-cache/*
