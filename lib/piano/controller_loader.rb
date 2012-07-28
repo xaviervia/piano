@@ -6,17 +6,19 @@ module Piano
         load item
       end
     end
-    
+
     # Iterates recursively over the path and calls the block
     # with each newfound file
     def self.recursive path, &block
       files = []
       Dir.new(File.expand_path(path)).each do |file|
         if File.directory? "#{path}/#{file}"
-          recursive "#{path}/#{file}" do |item|
-            files << "#{item}"
-          end unless file == ".." or file == "."
-        elsif file.end_with? ".controller"
+          unless file == '..' or file == '.'
+            recursive "#{path}/#{file}" do |item|
+              files << "#{item}"
+            end
+          end
+        elsif file.end_with? '.controller'
           files << "#{path}/#{file}"
         end
       end
