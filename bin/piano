@@ -1,17 +1,17 @@
 #!/usr/bin/env ruby
-require "piano"
-require "metafun/delegator"
+require 'piano'
+require 'metafun/delegator'
 
 unless ARGV.empty?
-  
+
   args = {}
-  
+
   ARGV.each do |arg|
     if arg =~ /^\d+$/
       args[:port] = arg
     elsif arg =~ /^noetags$/
       args[:etags] = :off
-    elsif arg == "-v"
+    elsif arg == '-v'
       puts Piano::VERSION
       Process.exit!
     elsif arg =~ /^views:/
@@ -36,28 +36,28 @@ if args
 end
 
 self.extend Metafun::Delegator
-self.delegate Piano::Base,  :get, :patch, :put, :post, :delete, 
+self.delegate Piano::Base, :get, :patch, :put, :post, :delete,
                       :head, :options, :template, :fetch, :layout,
-                      :before, :after, :error, :not_found, 
-                      :configure, :set, :mime_type, :enable, 
-                      :disable, :use, :development?, :test?, 
+                      :before, :after, :error, :not_found,
+                      :configure, :set, :mime_type, :enable,
+                      :disable, :use, :development?, :test?,
                       :production?, :helpers, :settings, :play!
 
 self.helpers Sinatra::Piano
 
-$LOAD_PATH << Dir.pwd + "/lib"
+$LOAD_PATH << Dir.pwd + '/lib'
 
-if File.exists?("Pianofile")
-  puts "Pianofile found, loading..."
-  load "Pianofile"
+if File.exists?('Pianofile')
+  puts 'Pianofile found, loading...'
+  load 'Pianofile'
 end
 
-if File.directory?("controllers")
+if File.directory?('controllers')
   puts "'controllers' directory found, loading '.controller' files"
-  Piano::ControllerLoader.folder "controllers" 
+  Piano::ControllerLoader.folder 'controllers'
 end
 
-require "piano/routes"
+require 'piano/routes'
 
 puts "Starting Sinatra from Piano #{Piano::VERSION}"
 Piano::Base.play!
