@@ -1,6 +1,6 @@
 = Piano
 
-Out-of-the-box Sinatra server for fast website sketching using Haml and Sass and CoffeeScript (and YAML!).
+Out-of-the-box Sinatra server for fast website sketching using Haml (or Slim) and Sass and CoffeeScript (and YAML!).
 
 The magic triplet, one command away!
 
@@ -14,7 +14,7 @@ The magic triplet, one command away!
 
 Piano will start a Sinatra server based in the same folder where you run the command, in the port and environment given. If no port or environment is given, Piano will start in the default Sinatra port <tt>4567</tt> and the default environment <tt>:development</tt>. 
 
-Haml (http://haml-lang.com) <tt>.haml</tt> files and Sass (http://sass-lang.com) <tt>.sass</tt> and CoffeeScript (http://github.com/josh/ruby-coffee-script) <tt>.coffee</tt> files in the base folder will automatically be mapped to urls.
+Haml (http://haml-lang.com) <tt>.haml</tt> (or Slim (http://slim-lang.com) <tt>.slim</tt>) files and Sass (http://sass-lang.com) <tt>.sass</tt> and CoffeeScript (http://github.com/josh/ruby-coffee-script) <tt>.coffee</tt> files in the base folder will automatically be mapped to urls.
 
   yoursite.com/users      => server/folder/users.haml
   yoursite.com/style.css  => server/folder/style.sass
@@ -32,25 +32,25 @@ Any route added to the <tt>Pianofile</tt> will be parsed before the default rout
 
 This file, for example, will bring back the email masking functionality that was deprecated in version 0.7.6
 
-  get "/" do
-    "Hi! Just testing"
+  get '/' do
+    'Hi! Just testing'
   end
 
-  get "/email" do
+  get '/email' do
     "Here is my email: #{unicode_entities('xavier@example.com')}"
   end
 
-  post "/" do  # The "/" route, is considered "index" for the haml and yaml files
+  post '/' do  # The '/' route, is considered "index" for the haml and yaml files
     require "psych"
-    
-    File.open "data/index.yaml", "w" do |file|
+
+    File.open 'data/index.yaml', 'w' do |file|
       file.write params.to_yaml
     end
   end
 
   helpers do
     def unicode_entities(string)
-      encodings = ""
+      encodings = ''
       string.codepoints do |c|
         encodings += "&##{c};"
       end
@@ -71,14 +71,30 @@ When receiving a request for <tt>"/users"</tt>, Piano will look up for a YAML fi
   !!! 5
   %head
     %title= @data['title']
-    = style "style.css"
-    = script "app.js"
+    = style 'style.css'
+    = script 'app.js'
   %body
     %h1= @data['title']
     %p= @data['description']
     %ul
       - @data['list'].each do |item|
         %li= item
+
+Or if slim:
+
+==== folder/index.slim
+
+  doctype html
+  head
+    title= @data['title']
+    == style 'style.css'
+    == script 'app.js'
+  body
+    h1= @data['title']
+    p= @data['description']
+    ul
+      - @data['list'].each do |item|
+        li= item
 
 ==== folder/style.sass
 
@@ -92,7 +108,7 @@ When receiving a request for <tt>"/users"</tt>, Piano will look up for a YAML fi
 ==== folder/app.coffee
 
   alert "This is too simple to be true"
-  
+
 ==== folder/data/index.yaml
 
   title: 5 minutes site!
@@ -101,7 +117,7 @@ When receiving a request for <tt>"/users"</tt>, Piano will look up for a YAML fi
     - and I can have
     - a list
     - also.
-  
+
 Note: You can find this sample in the repository within the <tt>/sample</tt> folder.
 
 == Going :production!
@@ -129,38 +145,38 @@ Piano is fully usable as a Sinatra Extension. Provide the helpers, <tt>sass("tem
 Note: Prior to version 0.8.2, Piano was intended to be used as a subclass of Sinatra::Base, but now it works both as a Sinatra Extension and as a subclass.
 Further moves to keep most functionality as a Sinatra Extension will be done in the future, except in the <tt>piano/routes</tt>.
 
-  require "piano"
-    
-  class MyPiano < Sinatra::Base   
+  require 'piano'
+
+  class MyPiano < Sinatra::Base
     helpers Sinatra::Piano
-    
-    get "/" do
+
+    get '/' do
       "Let's change the default behaviour"
     end
-  end  
-  
-  MyPiano.run! 
+  end
+
+  MyPiano.run!
 
 === Routes
 
 To load the routes (the ones that match your requests with your haml, sass and coffee templates) you have to require also <tt>"piano/routes"</tt>. Usually you'll want to load them after you define your own ones, otherwise you won't be able to override them.
 
-  require "piano"
-  
+  require 'piano'
+
   class Piano
-    get "/special" do
+    get '/special' do
       "A special route, overriding the default 'special.haml'"
     end
   end
-  
-  require "piano/routes"
-  
+
+  require 'piano/routes'
+
   Piano.play! # .play! added 4 the lulz; Piano.run! will do the trick aswell
 
 <tt>Piano</tt> inherits <tt>Sinatra::Base</tt>, so all of <tt>Sinatra::Base</tt> own methods are available. Read the Sinatra documentation (http://www.sinatrarb.com/intro) for further information. 
 
 Tip: put
-  
+
   Piano.environment = :production
 
 just before letting it play for play in production environment!
@@ -181,9 +197,18 @@ You can use them in your haml templates like this:
   %html
     %head
       %title Out-of-the-box is pretty awesome!
-      = style "style.css"
-      = script "app.js"
-      
+      = style 'style.css'
+      = script 'app.js'
+
+Or in slim:
+
+  doctype html
+  html
+    head
+      title Out-of-the-box is pretty awesome!
+      == style 'style.css'
+      == script 'app.js'
+
 ==== <tt>extract</tt>
 
 Another helper you may find useful is <tt>extract("source_text/html", word_count = 80)</tt>. Returns an extract of the first <tt>word_count</tt> words (default is 80), html tags stripped, and closed by <tt>"..."</tt> . It does nothing is the text is less than <tt>word_count</tt> words in length.
@@ -197,11 +222,11 @@ No, it does not print an anchor: it strips all strange characters from a string 
 Really useful when generating uri's for articles, or html id attributes.
 
   %a(href="/articles/#{article.id}-#{link(article.title)}")= article.title
-  
+
 or
-  
+
   %h2(id="#{link(subtitle,4)}")= subtitle
-  
+
 In this example, the second argument (4) ensures that the link is done with no more than four of the subtitle's words.
 
 === <tt>flash</tt>
