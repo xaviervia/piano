@@ -161,9 +161,9 @@ Further moves to keep most functionality as a Sinatra Extension will be done in 
 
 To load the routes (the ones that match your requests with your haml, sass and coffee templates) you have to require also <tt>"piano/routes"</tt>. Usually you'll want to load them after you define your own ones, otherwise you won't be able to override them.
 
-  require 'piano'
+  require 'piano/base'
 
-  class Piano
+  class Piano::Base
     get '/special' do
       "A special route, overriding the default 'special.haml'"
     end
@@ -171,17 +171,17 @@ To load the routes (the ones that match your requests with your haml, sass and c
 
   require 'piano/routes'
 
-  Piano.play! # .play! added 4 the lulz; Piano.run! will do the trick aswell
+  Piano::Base.play! # .play! added 4 the lulz; Piano.run! will do the trick aswell
 
 <tt>Piano</tt> inherits <tt>Sinatra::Base</tt>, so all of <tt>Sinatra::Base</tt> own methods are available. Read the Sinatra documentation (http://www.sinatrarb.com/intro) for further information. 
 
 Tip: put
 
-  Piano.environment = :production
+  Piano::Base.environment = :production
 
 just before letting it play for play in production environment!
 
-By setting <tt>Piano.etags = :off</tt>, etags will be disabled.
+By setting <tt>Piano::Base.etags = :off</tt>, etags will be disabled.
 
 == Candies for the kidz
 
@@ -265,6 +265,8 @@ As for v0.7.3, Piano has now the ability to go <tt>:production</tt> mode both in
 
 == Deprecated functions
 
+From version 0.11.0 on, <tt>flash?</tt> has been deprecated and the <tt>flash</tt> helpers has been replaced with the <tt>sinatra-flash</tt> gem.
+
 From version 0.7.6 on, <tt>unicode_entities</tt> has been deprecated for better Ruby version backwards compatibility.
 
 = License
@@ -273,7 +275,7 @@ From version 0.7.6 on, <tt>unicode_entities</tt> has been deprecated for better 
 
 Copyright © 2011:
 
-* Xavier Via (http://germino.com.ar)
+* Xavier Via (http://xaviervia.com.ar)
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the ‘Software’), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
