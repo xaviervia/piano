@@ -33,6 +33,18 @@ module Sinatra
         end
       end
 
+      # Fallback to serve JS file
+      if type == :coffee
+        script_name  = "#{settings.views}/#{resource}"
+        js_file_name = "#{script_name}.js"
+
+        if not File.exists?("#{script_name}.#{type}") and
+           File.exists?(js_file_name)
+
+          return File.new(js_file_name).readlines
+        end
+      end
+
       send type, resource.to_sym, *args # Send the template to Sinatra to take care of it
     end
 
