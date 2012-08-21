@@ -1,5 +1,6 @@
 require 'sinatra/base'
 require 'sinatra/flash'
+require 'piano/tilt_utf8_patch'
 
 require 'haml'
 require 'slim'
