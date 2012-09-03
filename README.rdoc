@@ -269,6 +269,11 @@ From version 0.11.0 on, <tt>flash?</tt> has been deprecated and the <tt>flash</t
 
 From version 0.7.6 on, <tt>unicode_entities</tt> has been deprecated for better Ruby version backwards compatibility.
 
+= Collaborators
+
+- [Alexey Gaziev](http://github.com/gazay)
+- [Sasha Koss](http://github.com/kossnocorp)
+
 = License
 
 (The MIT License)
