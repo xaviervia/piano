@@ -271,8 +271,8 @@ From version 0.7.6 on, <tt>unicode_entities</tt> has been deprecated for better 
 
 = Collaborators
 
-- [Alexey Gaziev](http://github.com/gazay)
-- [Sasha Koss](http://github.com/kossnocorp)
+- Alexey Gaziev (http://github.com/gazay)
+- Sasha Koss (http://github.com/kossnocorp)
 
 = License
 
