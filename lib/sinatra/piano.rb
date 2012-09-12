@@ -42,16 +42,6 @@ module Sinatra
       YAML.load_file(file_name) if File.exists?(file_name)
     end
 
-    # Sugar: formats a css stylesheet <link /> tag with the input
-    #def style(path, more = '')
-    #  "<link rel='stylesheet' type='text/css' href='#{path}' #{more} />"
-    #end
-
-    # Sugar: formats a javascript <script> tag with the input
-    #def script(path, more = '')
-    #  "<script type='text/javascript' src='#{path}' #{more} ></script>"
-    #end
-
     # Fails. Shouts a 404 response and prints hints
     #
     # If Piano is running in production mode, prints a plain 404 html
@@ -123,7 +113,6 @@ module Sinatra
         true
       end
     end
-
   end
 
   register Piano
