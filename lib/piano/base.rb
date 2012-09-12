@@ -1,6 +1,8 @@
+# -*- encoding : utf-8 -*-
 module Piano
   class Base < Sinatra::Base
-    register Sinatra::Piano
+    helpers Piano::Helpers::HTML
+    helpers Sinatra::Piano
     register Sinatra::Flash
 
     Compass.configuration do |config|

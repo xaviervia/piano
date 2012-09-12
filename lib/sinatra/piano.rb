@@ -43,14 +43,14 @@ module Sinatra
     end
 
     # Sugar: formats a css stylesheet <link /> tag with the input
-    def style(path, more = '')
-      "<link rel='stylesheet' type='text/css' href='#{path}' #{more} />"
-    end
+    #def style(path, more = '')
+    #  "<link rel='stylesheet' type='text/css' href='#{path}' #{more} />"
+    #end
 
     # Sugar: formats a javascript <script> tag with the input
-    def script(path, more = '')
-      "<script type='text/javascript' src='#{path}' #{more} ></script>"
-    end
+    #def script(path, more = '')
+    #  "<script type='text/javascript' src='#{path}' #{more} ></script>"
+    #end
 
     # Fails. Shouts a 404 response and prints hints
     #

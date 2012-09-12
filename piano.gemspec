@@ -23,6 +23,9 @@ Gem::Specification.new do |s|
   s.add_dependency "i18n", ">= 0.6.0"
   s.add_dependency "metafun"
 
+  s.add_development_dependency 'rspec'
+  s.add_development_dependency 'cucumber'
+
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
   s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }

@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 require 'sinatra/base'
 require 'sinatra/flash'
 require 'piano/tilt_utf8_patch'
@@ -19,6 +20,7 @@ end
 
 require 'sinatra/piano'
 
+require 'piano/helpers/html'
 require 'piano/base'
 require 'piano/controller_loader'
 require 'piano/version'

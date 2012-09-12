@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 module Piano
   class Base
     get '/' do

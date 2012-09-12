@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 module Piano
   # Handler of .controller files loading
   class ControllerLoader
