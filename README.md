@@ -170,6 +170,7 @@ In version '0.12.0' using Piano as a Sinatra Extension was determined to be a ba
 > This section will remain empty until the helpers are completed. For information about using Piano as a Sinatra Extension, please refer to prior versions of the documentation.
 
 Helpers that come in the bundle
+-------------------------------
 
 #### `style` and `script`
 
