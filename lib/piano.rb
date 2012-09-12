@@ -1,14 +1,13 @@
 # -*- encoding : utf-8 -*-
 require 'sinatra/base'
 require 'sinatra/flash'
-require 'piano/tilt_utf8_patch'
+require 'tilt/coffee_script_template_utf8_patch.rb'
 
 require 'haml'
 require 'slim'
 require 'sass'
 require 'compass'
 require 'yaml'
-require 'i18n'
 
 begin
   require 'coffee-script'

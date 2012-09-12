@@ -244,6 +244,7 @@ Desired (future) features
 * More helpers for semantic data handling.
 * Deploy of sample with command line `--sample` argument.
 * Online source files edition.
+* Introduce internationalization using [g11n](//github.com/Fetcher/g11n)
 
 * Now it would be nice to give Piano personalized templates not only to 404 but for all error pages, specially 500
 * Custom error when there's no data
