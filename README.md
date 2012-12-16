@@ -238,6 +238,7 @@ Etags cause client side caching. This should not be a problem since the hash cha
 Desired (future) features
 -------------------------
 
+* [SymbolMatrix](https://github.com/Fetcher/symbolmatrix) for YAML data.
 * Features and specs covering all Piano's functionality.
 * Agnosticism. Currently Piano is kind of HAML&SASS monotheistic.
 * `style` and `script` helpers working with symbols.
